@@ -322,7 +322,7 @@ h1{margin:0;font:800 clamp(30px,4vw,46px)/1.12 var(--sora);letter-spacing:-.02em
 
 /* rolagem guiada: o infográfico fica fixo no alto e cada etapa acende os blocos dela */
 .scrolly{position:relative}
-.sc-fig{position:sticky;top:calc(var(--top) + 10px);z-index:5;padding-bottom:6px;background:linear-gradient(var(--bg) 92%,transparent)}
+.sc-fig{position:sticky;top:var(--top);z-index:5;padding:10px 0 8px;background:var(--bg)}
 .sc-fig.solto{position:relative;top:auto}
 .sc-fig .painel{box-shadow:0 24px 60px -30px var(--sombra)}
 .sc-dica{margin:12px 0 0;display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mut)}
@@ -388,3 +388,15 @@ h1{margin:0;font:800 clamp(30px,4vw,46px)/1.12 var(--sora);letter-spacing:-.02em
 @media (max-width:1280px){.mp-sub{display:none}.mp-dep small{display:none}.mp-dep{width:26px}}
 @media (min-width:901px) and (max-width:1200px){.mapa-f{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mp-dep{display:none}}
 .mp-exs,.mp-exs li,.mp-ex{min-width:0;max-width:100%}
+
+/* legenda da etapa dentro do painel: no desktop o texto não passa por trás do diagrama */
+.sc-cap{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;min-height:118px;transition:opacity .25s}
+.sc-cap.troca{opacity:0}
+.sc-cap h3{margin:4px 0 6px;font:700 19px/1.3 var(--sora)}
+.sc-cap p{margin:0;max-width:78ch;color:var(--txt2);font-size:15.5px}
+.sc-cap .pq{color:var(--ok);font-weight:700}
+.scrolly.fixo .sc-passos{margin:0;padding:0;max-width:none}
+.scrolly.fixo .sc-passo{height:48vh;margin:0;padding:0;border:0;background:none;opacity:0;pointer-events:none;transform:none}
+.scrolly.fixo .sc-passo:last-child{height:30vh}
+.scrolly:not(.fixo) .sc-cap{display:none}
+.scrolly.fixo .mp-det{display:none}

@@ -92,7 +92,10 @@ def figura_rolagem(figura, passos, leg, ui, dica=True):
     dica_html = f'<p class="sc-dica">{ic("seta")}{ui["role_dica"]}</p>' if dica else ""
     lis = "".join(f'<li class="sc-passo" data-foco="{",".join(map(str, p["foco"]))}"><span class="sc-n">{i + 1}/{len(passos)}</span>'
                   f'<h3>{p["titulo"]}</h3><p>{p["texto"]}</p></li>' for i, p in enumerate(passos))
-    return (f'<div class="scrolly dg-bloco"><div class="sc-fig"><div class="painel">{figura}'
+    p0 = passos[0]
+    cap = (f'<div class="sc-cap" aria-hidden="true"><span class="sc-n">1/{len(passos)}</span>'
+           f'<h3>{p0["titulo"]}</h3><p>{p0["texto"]}</p></div>')
+    return (f'<div class="scrolly dg-bloco"><div class="sc-fig"><div class="painel">{figura}{cap}'
             f'{dica_html}</div></div>'
             f'<ol class="sc-passos">{lis}</ol>{leg}</div>')
 
@@ -114,7 +117,7 @@ def sec_mapa(s, ui, aulas):
     fim = (f'<div class="mp-fim">{ic("alvo")}<div><b>{s["resultado"]["titulo"]}</b>{s["resultado"]["texto"]}</div>'
            f'<span class="mp-total">{s["resultado"]["total"]}</span></div>')
     figura = (f'<div class="mapa-f">{"".join(cols)}</div>{fim}'
-              f'<div class="dg-detalhe" aria-live="polite">{ui["mapa_dica"]}</div>')
+              f'<div class="mp-det dg-detalhe" aria-live="polite">{ui["mapa_dica"]}</div>')
     passos = [{"foco": [i], "titulo": d["titulo"], "texto": d["passo"]} for i, d in enumerate(s["degraus"])]
     if s.get("rolagem_fim"):
         passos.append({"foco": list(range(len(s["degraus"]))), **s["rolagem_fim"]})

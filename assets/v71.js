@@ -79,49 +79,66 @@
     });
   });
 
-  /* rolagem guiada: etapa ativa acende os blocos; clicar num bloco leva à etapa dele */
+  /* rolagem guiada: o diagrama fica fixo e a legenda dentro do painel troca a cada etapa; clicar num bloco leva à etapa dele */
   document.querySelectorAll(".scrolly").forEach(function (sc) {
     var fig = sc.querySelector(".sc-fig");
+    var cap = sc.querySelector(".sc-cap");
     var nos = sc.querySelectorAll(".sc-fig .dg-no");
     var passos = sc.querySelectorAll(".sc-passo");
-    function ajusta() { if (fig) fig.classList.toggle("solto", innerWidth <= 900 || fig.offsetHeight > innerHeight * 0.72); }
-    ajusta(); addEventListener("resize", ajusta);
+    var reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var atual = null, pedido = false;
+    function fixo() { return sc.classList.contains("fixo"); }
+    function ajusta() {
+      sc.classList.add("fixo");
+      var cabe = innerWidth > 900 && fig.offsetHeight <= innerHeight - 70;
+      sc.classList.toggle("fixo", cabe);
+      fig.classList.toggle("solto", !cabe);
+    }
+    function legenda(html) {
+      if (!cap) return;
+      if (reduz) { cap.innerHTML = html; return; }
+      cap.classList.add("troca");
+      setTimeout(function () { cap.innerHTML = html; cap.classList.remove("troca"); }, 160);
+    }
     function ativa(p) {
       passos.forEach(function (o) { o.classList.toggle("ativo", o === p); });
       var foco = (p.getAttribute("data-foco") || "").split(",").map(Number);
       sc.classList.add("focando");
       nos.forEach(function (n, i) { n.classList.toggle("foco", foco.indexOf(i) >= 0); });
+      if (fixo()) legenda(p.innerHTML);
     }
-    /* a etapa ativa é a que aparece logo abaixo do diagrama fixo (ou perto do centro, quando ele rola junto) */
-    var atual = null, pedido = false;
+    function linha() { return fixo() ? innerHeight * 0.62 : innerHeight * 0.5; }
     function escolhe() {
       pedido = false;
-      var solto = fig.classList.contains("solto");
-      var linha = solto ? innerHeight * 0.5 : fig.getBoundingClientRect().bottom + 24;
-      var melhor = null, dist = 1e9;
-      passos.forEach(function (p) {
-        var r = p.getBoundingClientRect();
-        if (r.bottom < linha - 10 || r.top > innerHeight - 130) return;
-        var d = Math.abs(r.top - linha);
-        if (d < dist) { dist = d; melhor = p; }
-      });
+      var l = linha(), melhor = null;
+      if (fixo()) {
+        passos.forEach(function (p) { if (p.getBoundingClientRect().top <= l) melhor = p; });
+        if (!melhor) melhor = passos[0];
+      } else {
+        var dist = 1e9;
+        passos.forEach(function (p) { var r = p.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return; var d = Math.abs(r.top - l); if (d < dist) { dist = d; melhor = p; } });
+      }
       if (melhor && melhor !== atual) { atual = melhor; ativa(melhor); }
     }
+    ajusta(); escolhe();
+    addEventListener("resize", function () { ajusta(); atual = null; escolhe(); });
     addEventListener("scroll", function () { if (!pedido) { pedido = true; requestAnimationFrame(escolhe); } }, { passive: true });
-    escolhe();
     nos.forEach(function (n, i) {
       n.addEventListener("click", function (e) {
         if (e.target.closest(".mp-ex, a")) return;
         var alvo = Array.prototype.find.call(passos, function (p) { return p.getAttribute("data-foco") === String(i); });
-        if (alvo) { var y = alvo.getBoundingClientRect().top - (fig.classList.contains("solto") ? innerHeight * 0.4 : (parseFloat(getComputedStyle(fig).top) || 0) + fig.offsetHeight + 24); scrollBy({ top: y, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
+        if (!alvo) return;
+        var y = alvo.getBoundingClientRect().top - linha() + 2;
+        scrollBy({ top: y, behavior: reduz ? "auto" : "smooth" });
       });
     });
-    var det = sc.querySelector(".dg-detalhe");
     sc.querySelectorAll(".mp-ex").forEach(function (b) {
       b.addEventListener("click", function () {
         sc.querySelectorAll(".mp-ex").forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
         b.setAttribute("aria-pressed", "true");
-        if (det) det.innerHTML = b.querySelector("template").innerHTML;
+        var t = b.querySelector("template").innerHTML;
+        if (fixo()) legenda('<span class="sc-n">' + b.querySelector("b").textContent + '</span><p>' + t + '</p>');
+        else { var d = sc.querySelector(".mp-det"); if (d) d.innerHTML = t; }
       });
     });
   });
