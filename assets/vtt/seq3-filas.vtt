@@ -1,0 +1,241 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.000
+Mande dez tarefas para os seus agentes,
+
+2
+00:00:02.000 --> 00:00:03.740
+vá dormir, e acorde com o trabalho
+
+3
+00:00:03.740 --> 00:00:05.760
+pronto, cada etapa conferida.
+
+4
+00:00:05.760 --> 00:00:07.260
+Essa é a sequência três:
+
+5
+00:00:07.260 --> 00:00:07.960
+filas.
+
+6
+00:00:07.960 --> 00:00:10.200
+Neste vídeo: por que um agente sozinho
+
+7
+00:00:10.200 --> 00:00:12.120
+não basta, como funciona a fila do
+
+8
+00:00:12.120 --> 00:00:13.680
+inemaccbot, e no fim,
+
+9
+00:00:13.680 --> 00:00:15.220
+o portão que impede o agente de
+
+10
+00:00:15.220 --> 00:00:16.140
+seguir sem você.
+
+11
+00:00:16.140 --> 00:00:17.840
+Um agente no terminal faz uma coisa
+
+12
+00:00:17.840 --> 00:00:19.420
+por vez, e só enquanto você está
+
+13
+00:00:19.420 --> 00:00:19.880
+olhando.
+
+14
+00:00:19.880 --> 00:00:21.760
+Se a internet cai ou a máquina
+
+15
+00:00:21.760 --> 00:00:23.840
+reinicia, o trabalho se perde.
+
+16
+00:00:23.840 --> 00:00:25.500
+E se você pede dez coisas ao
+
+17
+00:00:25.500 --> 00:00:27.080
+mesmo tempo, elas se atropelam.
+
+18
+00:00:27.080 --> 00:00:28.700
+Para trabalhar sozinho,
+
+19
+00:00:28.700 --> 00:00:30.160
+o agente precisa de uma fila.
+
+20
+00:00:30.160 --> 00:00:32.440
+O inemaccbot é um bot de Telegram
+
+21
+00:00:32.440 --> 00:00:33.400
+com fila durável.
+
+22
+00:00:33.400 --> 00:00:35.800
+Cada pedido vira uma tarefa guardada num
+
+23
+00:00:35.800 --> 00:00:36.800
+banco SQLite.
+
+24
+00:00:36.800 --> 00:00:38.420
+A tarefa é pega com um sinal
+
+25
+00:00:38.420 --> 00:00:39.520
+de vida enquanto roda.
+
+26
+00:00:39.520 --> 00:00:41.500
+Se cair, ela volta para a fila
+
+27
+00:00:41.500 --> 00:00:42.280
+e é retomada.
+
+28
+00:00:42.280 --> 00:00:43.400
+Nada se perde.
+
+29
+00:00:43.400 --> 00:00:44.400
+E o que vai na fila?
+
+30
+00:00:44.400 --> 00:00:46.200
+Skills que rodam como agente:
+
+31
+00:00:46.200 --> 00:00:48.260
+transcrever, dublar, vídeo explicativo,
+
+32
+00:00:48.260 --> 00:00:50.300
+curso, demonstração, reel.
+
+33
+00:00:50.300 --> 00:00:51.880
+Você manda o pedido pelo Telegram.
+
+34
+00:00:51.880 --> 00:00:53.440
+O motor padrão é o Claude Code,
+
+35
+00:00:53.440 --> 00:00:55.460
+com o Codex ou o OpenCode como
+
+36
+00:00:55.460 --> 00:00:56.060
+alternativa.
+
+37
+00:00:56.060 --> 00:00:58.200
+O passo seguinte são os fluxos:
+
+38
+00:00:58.200 --> 00:00:59.500
+várias fases em sequência,
+
+39
+00:00:59.500 --> 00:01:01.120
+com o estado guardado em cada uma.
+
+40
+00:01:01.120 --> 00:01:02.700
+No meio, um portão humano.
+
+41
+00:01:02.700 --> 00:01:04.700
+O bot escreve os textos e para.
+
+42
+00:01:04.700 --> 00:01:06.820
+Você lê, e só quando aprova ele
+
+43
+00:01:06.820 --> 00:01:07.920
+segue para o avatar,
+
+44
+00:01:07.920 --> 00:01:09.700
+o download e o vídeo.
+
+45
+00:01:09.700 --> 00:01:11.400
+Automático, mas com você no comando.
+
+46
+00:01:11.400 --> 00:01:12.740
+É aqui que você deixa de ser
+
+47
+00:01:12.740 --> 00:01:14.280
+quem faz para ser quem gerencia.
+
+48
+00:01:14.280 --> 00:01:15.440
+Você define as tarefas,
+
+49
+00:01:15.440 --> 00:01:16.820
+os portões e as regras.
+
+50
+00:01:16.820 --> 00:01:18.300
+Os agentes executam na fila,
+
+51
+00:01:18.300 --> 00:01:20.080
+e você decide nos pontos que importam.
+
+52
+00:01:20.080 --> 00:01:21.000
+Com a fila de pé,
+
+53
+00:01:21.000 --> 00:01:22.640
+dá para colocar as redes sociais no
+
+54
+00:01:22.640 --> 00:01:24.040
+automático: a sequência quatro.
+
+55
+00:01:24.040 --> 00:01:25.060
+O
+
+56
+00:01:25.060 --> 00:01:27.120
+inemaccbot, o guia e a arquitetura completa
+
+57
+00:01:27.120 --> 00:01:28.920
+estão no INEMA ponto CLUB,
+
+58
+00:01:28.920 --> 00:01:30.420
+abertos e gratuitos.
+
+59
+00:01:30.420 --> 00:01:31.820
+Monte a sua fila e mande a
+
+60
+00:01:31.820 --> 00:01:32.660
+primeira tarefa.

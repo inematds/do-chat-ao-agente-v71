@@ -1,0 +1,82 @@
+{
+  "slug": "plano",
+  "num": 6,
+  "titulo": "Seu plano: um degrau de cada vez",
+  "titulo_curto": "Seu plano e o vídeo final",
+  "minutos": 10,
+  "lead": "Você já viu os quatro degraus. Agora é montar o plano com datas, fazer os exercícios na ordem e só subir quando o \"pronto quando\" for verdade.",
+  "objetivo": "sair com um plano de execução datado e saber medir se cada degrau ficou firme.",
+  "competencias": ["planejar-jornada", "medir-pronto-quando", "sequenciar-adocao"],
+  "aprende": [
+    {"icone": "calendario", "t": "Montar o plano com datas"},
+    {"icone": "check", "t": "Medir com o \"pronto quando\""},
+    {"icone": "video", "t": "Rever a jornada inteira em vídeo"},
+    {"icone": "alvo", "t": "Validar o que aprendeu"}
+  ],
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "O plano sugerido",
+      "sub": "Pelo menos uma semana por degrau. Alguns exercícios pedem dias de uso real.",
+      "nos": [
+        {"icone": "terminal", "titulo": "Semana 1", "sub": "Terminal", "itens": [{"icone": "check", "t": "6 exercícios"}, {"icone": "git", "t": "AGENTS.md, Git, .env"}], "detalhe": "Os seis exercícios da sequência 1. É o degrau que mais gente quer pular e o que mais faz falta depois.", "forte": true},
+        {"icone": "robo", "titulo": "Semana 2", "sub": "Seu Jarvis", "itens": [{"icone": "check", "t": "6 exercícios"}, {"icone": "memoria", "t": "Memória: 2 dias"}], "detalhe": "Desenho, bot, instalação e o teste de memória (2 dias). A rotina do E6 pede 5 dias seguidos de uso: ela pode correr junto com a semana 3."},
+        {"icone": "fila", "titulo": "Semana 3", "sub": "Filas", "itens": [{"icone": "check", "t": "5 exercícios"}, {"icone": "relogio", "t": "Uma noite de tarefas"}], "detalhe": "Fila no papel, fila caseira, o bot instalado, uma noite de tarefas e o portão."},
+        {"icone": "megafone", "titulo": "Semana 4 em diante", "sub": "Redes", "itens": [{"icone": "check", "t": "6 exercícios"}, {"icone": "portao", "t": "1 semana com portão"}], "detalhe": "Do reel no papel à agenda com portão. O E6 pede uma semana de aprovação manual antes de pensar em tirar qualquer portão."}
+      ],
+      "volta": "Só avance quando o \"pronto quando\" for verdade",
+      "legenda": "23 exercícios no total: 6 + 6 + 5 + 6."
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Seu plano de execução",
+      "sub": "Copie para a pasta do seu projeto e preencha as datas. Marque cada exercício só quando o \"pronto quando\" for verdade.",
+      "blocos": [
+        {"rot": "plano.md", "icone": "calendario", "conteudo": "# Plano — Do chat ao agente\n\nInício: ____/____\n\n## Degrau 1 · Terminal (até ____/____)\n- [ ] E1 Primeira pasta pelo terminal\n- [ ] E2 AGENTS.md\n- [ ] E3 Primeira tarefa\n- [ ] E4 Git\n- [ ] E5 Segredo fora do texto\n- [ ] E6 O agente lê os seus arquivos\n\n## Degrau 2 · Seu Jarvis (até ____/____)\n- [ ] E1 meu-jarvis.md\n- [ ] E2 Bot no Telegram\n- [ ] E3 Instalar\n- [ ] E4 Teste de memória (2 dias)\n- [ ] E5 Nuvem ou local\n- [ ] E6 Rotina (5 dias seguidos)\n\n## Degrau 3 · Filas (até ____/____)\n- [ ] E1 Fila no papel\n- [ ] E2 Fila caseira\n- [ ] E3 Instalar o inemaccbot\n- [ ] E4 Dez tarefas e vá dormir\n- [ ] E5 O portão\n\n## Degrau 4 · Redes (até ____/____)\n- [ ] E1 Reel r7e no papel\n- [ ] E2 Os 5 do seu nicho\n- [ ] E3 Base com fonte\n- [ ] E4 Roteiro de 60 s\n- [ ] E5 Agenda\n- [ ] E6 Portão por uma semana\n\n## O que travou e a regra que criei\n- "}
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {"rot": "Quando você travar", "html": "<ul><li>Volte ao \"pronto quando\" do exercício anterior: quase sempre o problema começa ali.</li><li>Transforme o erro em regra no AGENTS.md ou no prompt.</li><li>Pergunte nos <a href=\"https://t.me/apoioinema\" target=\"_blank\" rel=\"noopener\">grupos do Telegram</a>.</li></ul>"},
+          {"rot": "Erros que mais custam", "html": "<ul><li>Pular o degrau 1 porque parece simples.</li><li>Tirar o portão antes de ter dias seguidos sem recusa.</li><li>Publicar número sem trecho literal na base.</li></ul>"}
+        ]
+      }
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "A formação em três frases",
+      "itens": [
+        {"t": "Mude de lugar", "texto": "O ganho não vem de um modelo novo: vem de tirar o trabalho do chat e pôr numa pasta com regras, Git e segredos fora do texto."},
+        {"t": "Um degrau por vez", "texto": "Terminal, assistente, fila e redes. Cada um usa o anterior, e o \"pronto quando\" diz quando subir."},
+        {"t": "Você continua decidindo", "texto": "Portão antes do que importa, recusa que vira regra e fonte na tela. Automatizar não é largar."}
+      ]
+    },
+    {
+      "tipo": "video",
+      "titulo": "Vídeo explicativo: a formação inteira",
+      "sub": "Dois minutos e meio para rever os quatro degraus antes de começar.",
+      "chave": "jornada-ia"
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste final",
+      "sub": "Quatro perguntas sobre a formação inteira.",
+      "perguntas": [
+        {"p": "Qual é a ordem dos degraus?", "opcoes": ["Redes, filas, assistente, terminal.", "Terminal, assistente, filas, redes.", "Assistente, terminal, redes, filas.", "Qualquer ordem, são independentes."], "certa": 1, "explica": "Terminal, assistente (Jarvis), filas e redes. Cada degrau usa o anterior.", "cert": true},
+        {"p": "O que o \"pronto quando\" garante?", "opcoes": ["Que o exercício levou o tempo indicado.", "Um critério verificável para saber se pode avançar.", "Que o agente não vai errar.", "Que o certificado foi emitido."], "certa": 1, "explica": "É o critério que você confere: só passe para o próximo exercício quando ele for verdade."},
+        {"p": "Qual destes itens nunca deve ir para um arquivo de texto do projeto?", "opcoes": ["As regras do agente.", "A lista de tarefas da fila.", "O token do bot do Telegram.", "As regras do nicho."], "certa": 2, "explica": "Token e chaves ficam só no .env, que está no .gitignore. Vale do degrau 1 ao 4."},
+        {"p": "Um fluxo vai publicar em nome da empresa toda madrugada. O que não pode faltar no começo?", "opcoes": ["Um portão humano antes de publicar.", "Um modelo local.", "Um reel com mais de 60 segundos.", "Desligar os avisos de falha."], "certa": 0, "explica": "Sem fila e sem portão, automatizar rede social vira postar errado mais rápido. O portão só sai depois de dias seguidos sem recusa.", "cert": true}
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Continue por aqui",
+      "links": [
+        {"t": "Área Do chat ao agente", "href": "https://eventos.inema.pro/do-chat-ao-agente/", "icone": "camadas"},
+        {"t": "Os 23 exercícios (guia da jornada)", "href": "https://inematds.github.io/jornada-agentes/guia/", "icone": "lista"},
+        {"t": "Série de vídeos com roteiros", "href": "https://inematds.github.io/jornada-agentes/serie/jornada-ia/", "icone": "video"},
+        {"t": "Cursos abertos no INEMA.CLUB", "href": "https://inema.club/", "icone": "seta"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "slug": "redes",
+  "num": 5,
+  "titulo": "Degrau 4: redes no automático, com fonte na tela",
+  "titulo_curto": "Redes no automático",
+  "minutos": 14,
+  "lead": "O r7e monta o reel em sete etapas de gatilho. O promoavatar faz vídeos com avatar para cada público. Os xviral assistem ao que os maiores do nicho publicaram, conferem cada número e publicam com a fonte na tela. O motor é o mesmo: só muda o tema.",
+  "objetivo": "desenhar o canal do seu nicho com regras, base com fonte, roteiro conferido, agenda e portão antes de publicar.",
+  "competencias": ["roteiro-r7e", "base-com-fonte", "regras-de-nicho", "agenda-com-portao"],
+  "aprende": [
+    {"icone": "video", "t": "O reel em 7 etapas (r7e)"},
+    {"icone": "lupa", "t": "A base com fonte literal"},
+    {"icone": "escudo", "t": "As regras do seu nicho"},
+    {"icone": "calendario", "t": "Agenda com portão"}
+  ],
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "A esteira de um canal com fonte",
+      "sub": "É o que o finviral, o saudeviral e o advviral fazem sozinhos. Clique em cada bloco.",
+      "nos": [
+        {"icone": "lupa", "titulo": "Referências", "sub": "5 canais do nicho", "itens": [{"icone": "arquivo", "t": "canais.md"}, {"icone": "escudo", "t": "regras.md"}], "detalhe": "Os maiores canais do seu nicho e as regras: o que conta como fato, o aviso obrigatório e o que você nunca publica."},
+        {"icone": "arquivo", "titulo": "Base com fonte", "sub": "base.md", "itens": [{"icone": "lista", "t": "Número ou fato"}, {"icone": "usuario", "t": "Quem disse"}, {"icone": "chat", "t": "Trecho literal"}], "detalhe": "A partir da transcrição, cada número entra com quem disse, o vídeo e o trecho literal. Você confere cada trecho na transcrição.", "forte": true},
+        {"icone": "video", "titulo": "Roteiro", "sub": "60 s com fonte na tela", "itens": [{"icone": "grafico", "t": "Abre com o número mais forte"}, {"icone": "escudo", "t": "Aviso do nicho"}], "detalhe": "O agente escreve o roteiro só com o que está na base. Número fora da base? O roteiro volta."},
+        {"icone": "portao", "titulo": "Portão", "sub": "Você aprova", "itens": [{"icone": "x", "t": "Recusa vira regra"}], "detalhe": "Antes de publicar, você aprova. Cada recusa vira uma regra nova em regras.md."},
+        {"icone": "calendario", "titulo": "Agenda", "sub": "cron ou timer", "itens": [{"icone": "relogio", "t": "Dia fraco não vira vídeo"}, {"icone": "enviar", "t": "Falha avisa no Telegram"}], "detalhe": "A frequência é decidida por você (ex.: segunda a sexta de madrugada e um longo no sábado). Dia sem assunto não vira vídeo, e falha avisa no Telegram."}
+      ],
+      "volta": "Cada recusa no portão vira uma regra nova",
+      "legenda": "Sem fila e sem portão, automatizar rede social vira postar errado mais rápido."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "O reel em 7 etapas (r7e)",
+      "sub": "Clique em cada etapa. Exemplo ilustrativo para o nicho de imóveis.",
+      "passos": [
+        {"titulo": "Gancho", "sub": "O resultado em 2 s", "texto": ["A primeira frase já diz o ganho. Nada de \"Imagine que...\"."], "exemplo": {"rot": "Exemplo", "texto": "Você pode estar pagando aluguel acima do valor da sua região."}},
+        {"titulo": "Desejo", "sub": "O que a pessoa quer", "texto": ["Mostre o que muda na vida de quem assiste."], "exemplo": {"rot": "Exemplo", "texto": "Pagar o justo e usar a diferença no que importa."}},
+        {"titulo": "Medo", "sub": "O que ela perde", "texto": ["O custo de não fazer nada, sem exagero."], "exemplo": {"rot": "Exemplo", "texto": "Todo mês sem conferir é dinheiro que não volta."}},
+        {"titulo": "Facilidade", "sub": "É simples", "texto": ["Mostre que o primeiro passo é pequeno."], "exemplo": {"rot": "Exemplo", "texto": "Leva cinco minutos e você só precisa do endereço."}},
+        {"titulo": "Descoberta", "sub": "O nome da solução", "texto": ["Aqui entra o nome: a ferramenta, o método, o curso."], "exemplo": {"rot": "Exemplo", "texto": "Use a tabela de preços por bairro que eu deixei no link."}},
+        {"titulo": "Benefício", "sub": "O ganho concreto", "texto": ["O resultado que a pessoa leva, de novo e mais concreto."], "exemplo": {"rot": "Exemplo", "texto": "Você chega na renovação do contrato com o número na mão."}},
+        {"titulo": "Comentário", "sub": "comenta PALAVRA", "texto": ["O convite final, com uma palavra só."], "exemplo": {"rot": "Exemplo", "texto": "Comenta ALUGUEL que eu te mando a tabela."}}
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Os modelos do seu canal",
+      "sub": "Copie e preencha para o seu nicho.",
+      "blocos": [
+        {"rot": "reel-r7e.md", "icone": "arquivo", "conteudo": "| # | Etapa | Sua frase |\n|---|---|---|\n| 1 | Gancho (o resultado em 2 s) | |\n| 2 | Desejo | |\n| 3 | Medo | |\n| 4 | Facilidade | |\n| 5 | Descoberta (o nome da solução) | |\n| 6 | Benefício | |\n| 7 | Comentário (\"comenta PALAVRA\") | |"},
+        {"rot": "regras.md", "icone": "escudo", "conteudo": "# Regras do nicho: <seu nicho>\n\n## O que conta como fato\n- \n\n## Aviso obrigatório\n- Ex.: \"não é recomendação de investimento\" / \"não substitui consulta\"\n\n## Nunca publico\n- \n\n## Regras vindas de recusas no portão\n- "},
+        {"rot": "base.md", "icone": "lista", "conteudo": "| Número ou fato | Quem disse | Vídeo | Trecho literal |\n|---|---|---|---|\n|  |  |  |  |"}
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {"rot": "Regra de ouro", "html": "<p>Todo número do roteiro tem que estar na <code>base.md</code>, com o trecho literal achado na transcrição. Se algum não estiver, o roteiro volta.</p><p>É exatamente o que o <code>checar.py</code> do finviral faz sozinho.</p>"},
+          {"rot": "Os motores", "html": "<ul><li><b>r7e</b>: reel em 7 etapas com portões de qualidade.</li><li><b>promoavatar</b>: um vídeo por público, 12 públicos, com portão no meio.</li><li><b>promoavatar3</b>: alcance, autoridade e promocional para o mesmo público.</li><li><b>finviral, saudeviral, advviral</b>: o mesmo motor em finanças, saúde e direito.</li></ul>"}
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática: os 6 exercícios da sequência 4",
+      "sub": "Pré-requisito: sequências 1, 2 e 3.",
+      "exercicios": [
+        {"id": "e1", "titulo": "E1 · Um reel em 7 etapas, no papel", "min": "20 min", "texto": "Escreva um reel de 30 a 45 segundos do seu nicho no modelo r7e.", "pronto": "você lê em voz alta em menos de 45 s e a primeira frase já diz o ganho."},
+        {"id": "e2", "titulo": "E2 · Os 5 do seu nicho", "min": "20 min", "texto": "Escolha 5 canais de referência e escreva as regras do nicho.", "pronto": "você tem canais.md e regras.md do seu nicho."},
+        {"id": "e3", "titulo": "E3 · A base com fonte", "min": "30 min", "texto": "Transcreva um vídeo de referência e monte a base.md com número, quem disse, vídeo e trecho literal.", "pronto": "cada linha tem o trecho literal e você achou cada um na transcrição."},
+        {"id": "e4", "titulo": "E4 · Roteiro de 60 s com fonte na tela", "min": "30 min", "texto": "Peça ao agente um roteiro a partir da base: número mais forte, três fatos com quem disse, aviso e convite.", "pronto": "todo número do roteiro está na base.md."},
+        {"id": "e5", "titulo": "E5 · A agenda", "min": "20 min", "texto": "Decida a frequência e escreva o agendamento (cron ou timer do systemd).", "pronto": "o agendamento está escrito e você sabe o que acontece num dia sem assunto."},
+        {"id": "e6", "titulo": "E6 · O portão antes de publicar", "min": "1 semana", "texto": "Rode uma semana com aprovação manual e anote cada recusa como regra.", "pronto": "você passou 3 dias seguidos sem precisar recusar."}
+      ],
+      "fonte": "Exercícios completos e o desafio extra (3 vídeos promoavatar para o mesmo público): <a href=\"https://github.com/inematds/jornada-agentes/blob/main/exercicios/04-redes.md\" target=\"_blank\" rel=\"noopener\">jornada-agentes/exercicios/04-redes.md</a>."
+    },
+    {
+      "tipo": "video",
+      "titulo": "A sequência 4 em vídeo",
+      "sub": "r7e, promoavatar e o canal viral do seu nicho.",
+      "chave": "seq4-redes"
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste o que aprendeu",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {"p": "O roteiro traz um número que não está na base.md. O que fazer?", "opcoes": ["Publicar, se o número parecer certo.", "Trocar por um número arredondado.", "Devolver o roteiro: todo número precisa estar na base, com trecho literal.", "Tirar a fonte da tela."], "certa": 2, "explica": "A regra do E4: todo número do roteiro está na base.md. Se não estiver, o roteiro volta.", "cert": true},
+        {"p": "Qual é a primeira frase de um reel r7e?", "opcoes": ["Uma apresentação pessoal.", "O ganho, o resultado em 2 segundos.", "O nome da ferramenta.", "O convite para comentar."], "certa": 1, "explica": "Gancho é o resultado em 2 segundos. O nome da solução só aparece na etapa 5 (descoberta)."},
+        {"p": "Quando é razoável tirar o portão de uma etapa?", "opcoes": ["Na primeira semana, para ganhar tempo.", "Depois de alguns dias seguidos sem precisar recusar nada.", "Nunca, o portão é obrigatório em tudo.", "Quando o canal passar de mil inscritos."], "certa": 1, "explica": "O E6 pede três dias seguidos sem recusa. Só então pense em tirar o portão de alguma etapa."}
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para aprofundar o degrau 4",
+      "links": [
+        {"t": "r7e (reel7etapas)", "href": "https://inematds.github.io/reel7etapas/guia/", "icone": "video"},
+        {"t": "promoavatar", "href": "https://inematds.github.io/promoavatar/guia/", "icone": "megafone"},
+        {"t": "promoavatar3", "href": "https://inematds.github.io/promoavatar3/guia/", "icone": "megafone"},
+        {"t": "finviral", "href": "https://inematds.github.io/finviral/guia/", "icone": "grafico"},
+        {"t": "saudeviral", "href": "https://inematds.github.io/saudeviral/guia/", "icone": "escudo"},
+        {"t": "advviral", "href": "https://inematds.github.io/advviral/guia/", "icone": "lista"}
+      ]
+    }
+  ]
+}
