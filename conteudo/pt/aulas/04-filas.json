@@ -34,7 +34,7 @@
     {
       "tipo": "diagrama",
       "titulo": "O caminho de uma tarefa",
-      "sub": "Clique em cada bloco.",
+      "sub": "Do pedido ao resultado, com retomada e portão.",
       "nos": [
         {
           "icone": "enviar",
@@ -103,7 +103,12 @@
         }
       ],
       "volta": "Rodar de novo só pega o que sobrou",
-      "legenda": "Exemplos de fluxos que viram tarefas no inemaccbot: transcrever, dublar, vídeo explicativo, curso e reel."
+      "legenda": "Exemplos de fluxos que viram tarefas no inemaccbot: transcrever, dublar, vídeo explicativo, curso e reel.",
+      "rolagem": true,
+      "rolagem_fim": {
+        "titulo": "Uma noite de fila",
+        "texto": "Você manda as tarefas e vai dormir. A fila guarda, o agente executa uma por vez e para no portão do que importa. De manhã, você olha feito/ e falhou/."
+      }
     },
     {
       "tipo": "simfila",

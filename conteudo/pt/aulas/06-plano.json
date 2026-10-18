@@ -31,78 +31,57 @@
   ],
   "secoes": [
     {
-      "tipo": "diagrama",
-      "titulo": "O plano sugerido",
-      "sub": "Pelo menos uma semana por degrau. Alguns exercícios pedem dias de uso real.",
-      "nos": [
+      "tipo": "mapa",
+      "titulo": "O mapa da formação",
+      "sub": "Os quatro degraus, os 23 exercícios e o que cada degrau entrega. Clique num exercício para ver o \"pronto quando\".",
+      "degraus": [
         {
+          "aula": "terminal",
           "icone": "terminal",
-          "titulo": "Semana 1",
-          "sub": "Terminal",
-          "itens": [
-            {
-              "icone": "check",
-              "t": "6 exercícios"
-            },
-            {
-              "icone": "git",
-              "t": "AGENTS.md, Git, .env"
-            }
-          ],
-          "detalhe": "Os seis exercícios da sequência 1. É o degrau que mais gente quer pular e o que mais faz falta depois.",
-          "forte": true
+          "quando": "Semana 1",
+          "titulo": "Terminal",
+          "sub": "Pasta, AGENTS.md, Git e .env",
+          "saida": "Agente trabalhando na sua pasta, com rede de segurança.",
+          "passo": "A base de tudo. Seis exercícios levam você do primeiro mkdir ao agente lendo os seus arquivos e citando a origem. Sem este degrau firme, os outros três empacam."
         },
         {
+          "aula": "jarvis",
           "icone": "robo",
-          "titulo": "Semana 2",
-          "sub": "Seu Jarvis",
-          "itens": [
-            {
-              "icone": "check",
-              "t": "6 exercícios"
-            },
-            {
-              "icone": "memoria",
-              "t": "Memória: 2 dias"
-            }
-          ],
-          "detalhe": "Desenho, bot, instalação e o teste de memória (2 dias). A rotina do E6 pede 5 dias seguidos de uso: ela pode correr junto com a semana 3."
+          "quando": "Semana 2",
+          "titulo": "Seu Jarvis",
+          "sub": "INTELECTO no Telegram",
+          "saida": "Assistente seu, com memória e uma rotina em uso.",
+          "passo": "Requer o degrau 1 (terminal, pastas e .env). Do desenho no meu-jarvis.md à rotina usada cinco dias seguidos; o teste de memória leva dois dias."
         },
         {
+          "aula": "filas",
           "icone": "fila",
-          "titulo": "Semana 3",
-          "sub": "Filas",
-          "itens": [
-            {
-              "icone": "check",
-              "t": "5 exercícios"
-            },
-            {
-              "icone": "relogio",
-              "t": "Uma noite de tarefas"
-            }
-          ],
-          "detalhe": "Fila no papel, fila caseira, o bot instalado, uma noite de tarefas e o portão."
+          "quando": "Semana 3",
+          "titulo": "Filas",
+          "sub": "inemaccbot e portão",
+          "saida": "Tarefas rodando à noite, com portão no que importa.",
+          "passo": "Requer os degraus 1 e 2. A fila no papel e a fila caseira vêm antes do bot; a noite de tarefas mostra quantas saem certas na primeira."
         },
         {
+          "aula": "redes",
           "icone": "megafone",
-          "titulo": "Semana 4 em diante",
-          "sub": "Redes",
-          "itens": [
-            {
-              "icone": "check",
-              "t": "6 exercícios"
-            },
-            {
-              "icone": "portao",
-              "t": "1 semana com portão"
-            }
-          ],
-          "detalhe": "Do reel no papel à agenda com portão. O E6 pede uma semana de aprovação manual antes de pensar em tirar qualquer portão."
+          "quando": "Semana 4 em diante",
+          "titulo": "Redes",
+          "sub": "r7e, promoavatar, xviral",
+          "saida": "Canal do nicho com fonte na tela e agenda com portão.",
+          "passo": "Requer os três anteriores: sem fila e sem portão, automatizar rede social vira postar errado mais rápido. Termina com uma semana de aprovação manual."
         }
       ],
-      "volta": "Só avance quando o \"pronto quando\" for verdade",
-      "legenda": "23 exercícios no total: 6 + 6 + 5 + 6."
+      "resultado": {
+        "titulo": "Ao final da formação",
+        "texto": "Agente na pasta, assistente seu, fila com portões e canal com fonte na tela.",
+        "total": "23 exercícios"
+      },
+      "rolagem_fim": {
+        "titulo": "A formação inteira",
+        "texto": "Quatro degraus em sequência, cada um com a sua lista de exercícios e um critério verificável. Só suba quando o \"pronto quando\" do degrau anterior for verdade."
+      },
+      "legenda": "Ordem obrigatória: cada degrau usa o que o anterior montou."
     },
     {
       "tipo": "codigo",

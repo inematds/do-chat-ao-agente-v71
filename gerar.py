@@ -78,8 +78,48 @@ def sec_diagrama(s, ui):
         )
     volta = f'<div class="dg-volta" aria-hidden="true"><span>{s["volta"]}</span></div>' if s.get("volta") else ""
     leg = f'<p class="dg-legenda">{s["legenda"]}</p>' if s.get("legenda") else ""
-    return (f'<div class="painel dg-bloco"><div class="dg {estilo}">{"".join(partes)}</div>{volta}'
-            f'<div class="dg-detalhe" aria-live="polite">{s.get("dica", ui["dg_dica"])}</div>{leg}</div>')
+    if not s.get("rolagem"):
+        return (f'<div class="painel dg-bloco"><div class="dg {estilo}">{"".join(partes)}</div>{volta}'
+                f'<div class="dg-detalhe" aria-live="polite">{s.get("dica", ui["dg_dica"])}</div>{leg}</div>')
+    passos = [{"foco": [i], "titulo": n["titulo"], "texto": n["detalhe"]} for i, n in enumerate(s["nos"])]
+    if s.get("rolagem_fim"):
+        passos.append({"foco": list(range(len(s["nos"]))), **s["rolagem_fim"]})
+    return figura_rolagem(f'<div class="dg {estilo}">{"".join(partes)}</div>{volta}', passos, leg, ui)
+
+
+def figura_rolagem(figura, passos, leg, ui, dica=True):
+    """Infográfico fixo no alto; cada etapa da explicação acende os blocos correspondentes."""
+    dica_html = f'<p class="sc-dica">{ic("seta")}{ui["role_dica"]}</p>' if dica else ""
+    lis = "".join(f'<li class="sc-passo" data-foco="{",".join(map(str, p["foco"]))}"><span class="sc-n">{i + 1}/{len(passos)}</span>'
+                  f'<h3>{p["titulo"]}</h3><p>{p["texto"]}</p></li>' for i, p in enumerate(passos))
+    return (f'<div class="scrolly dg-bloco"><div class="sc-fig"><div class="painel">{figura}'
+            f'{dica_html}</div></div>'
+            f'<ol class="sc-passos">{lis}</ol>{leg}</div>')
+
+
+def sec_mapa(s, ui, aulas):
+    """Mapa da formação: degraus em colunas, exercícios de cada aula de prática, dependências e resultado."""
+    cols = []
+    for i, d in enumerate(s["degraus"]):
+        aula = next(a for a in aulas if a["slug"] == d["aula"])
+        prat = next(x for x in aula["secoes"] if x["tipo"] == "pratica")
+        exs = "".join(f'<li><button type="button" class="mp-ex"><b>{e["titulo"].split(" · ")[0]}</b><span>{e["titulo"].split(" · ", 1)[-1]}</span>'
+                      f'<template><b>{e["titulo"]}</b> · {e.get("min", "")}<br/>{e["texto"]}<br/><span class="pq">{ui["pronto_quando"]}</span> {e["pronto"]}</template></button></li>'
+                      for e in prat["exercicios"])
+        seta = f'<span class="mp-dep" aria-hidden="true">{ic("seta")}<small>{ui["pre_requisito"]}</small></span>' if i else ""
+        cols.append(f'{seta}<div class="mp-col dg-no{" forte" if i == 0 else ""}" data-no="{i}"><div class="mp-cab"><span class="ic">{ic(d["icone"])}</span>'
+                    f'<span><small>{d["quando"]}</small><b>{d["titulo"]}</b></span></div><p class="mp-sub">{d["sub"]}</p>'
+                    f'<ol class="mp-exs">{exs}</ol><p class="mp-saida">{ic("check")}{d["saida"]}</p>'
+                    f'<a class="mp-aula" href="../{d["aula"]}/index.html">{ui["ver_aula"]} {ic("seta")}</a></div>')
+    fim = (f'<div class="mp-fim">{ic("alvo")}<div><b>{s["resultado"]["titulo"]}</b>{s["resultado"]["texto"]}</div>'
+           f'<span class="mp-total">{s["resultado"]["total"]}</span></div>')
+    figura = (f'<div class="mapa-f">{"".join(cols)}</div>{fim}'
+              f'<div class="dg-detalhe" aria-live="polite">{ui["mapa_dica"]}</div>')
+    passos = [{"foco": [i], "titulo": d["titulo"], "texto": d["passo"]} for i, d in enumerate(s["degraus"])]
+    if s.get("rolagem_fim"):
+        passos.append({"foco": list(range(len(s["degraus"]))), **s["rolagem_fim"]})
+    leg = f'<p class="dg-legenda">{s["legenda"]}</p>' if s.get("legenda") else ""
+    return figura_rolagem(figura, passos, leg, ui, dica=False)
 
 
 def sec_passos(s, ui):
@@ -243,9 +283,13 @@ def pagina_aula(curso, aulas, a, idx, ui, lang):
     secs = []
     num = 0
     for s in a["secoes"]:
-        num += 1
         t = s["tipo"]
+        if t == "links":
+            secs.append(f'<section class="secao extra"><h2 class="extra-t">{s["titulo"]}</h2>{sec_links(s, ui)}</section>')
+            continue
+        num += 1
         if t == "diagrama": corpo = sec_diagrama(s, ui)
+        elif t == "mapa": corpo = sec_mapa(s, ui, aulas)
         elif t == "passos": corpo = sec_passos(s, ui)
         elif t == "codigo": corpo = sec_codigo(s, ui)
         elif t == "pratica": corpo = sec_pratica(s, ui, a["slug"])

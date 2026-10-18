@@ -118,7 +118,12 @@
         }
       ],
       "volta": "Cada degrau reaproveita o anterior: pasta, regras, segredos e portão",
-      "legenda": "Sem milagre: não existe \"render enquanto dorme\" se o sistema não roda correto."
+      "legenda": "Sem milagre: não existe \"render enquanto dorme\" se o sistema não roda correto.",
+      "rolagem": true,
+      "rolagem_fim": {
+        "titulo": "Os quatro juntos",
+        "texto": "Cada degrau reaproveita o anterior: a pasta e as regras do terminal, o .env com as chaves, a fila que guarda as tarefas e o portão antes do que importa. Por isso a ordem não é opcional."
+      }
     },
     {
       "tipo": "passos",

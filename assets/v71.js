@@ -66,7 +66,7 @@
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") document.body.classList.remove("lado-aberto"); });
 
   /* diagrama: clicar num nó mostra o detalhe */
-  document.querySelectorAll(".dg-bloco").forEach(function (bloco) {
+  document.querySelectorAll(".dg-bloco:not(.scrolly)").forEach(function (bloco) {
     var det = bloco.querySelector(".dg-detalhe");
     var nos = bloco.querySelectorAll(".dg-no");
     nos.forEach(function (no) {
@@ -75,6 +75,53 @@
         no.setAttribute("aria-pressed", "true");
         var t = no.querySelector("template");
         if (det && t) det.innerHTML = t.innerHTML;
+      });
+    });
+  });
+
+  /* rolagem guiada: etapa ativa acende os blocos; clicar num bloco leva à etapa dele */
+  document.querySelectorAll(".scrolly").forEach(function (sc) {
+    var fig = sc.querySelector(".sc-fig");
+    var nos = sc.querySelectorAll(".sc-fig .dg-no");
+    var passos = sc.querySelectorAll(".sc-passo");
+    function ajusta() { if (fig) fig.classList.toggle("solto", innerWidth <= 900 || fig.offsetHeight > innerHeight * 0.72); }
+    ajusta(); addEventListener("resize", ajusta);
+    function ativa(p) {
+      passos.forEach(function (o) { o.classList.toggle("ativo", o === p); });
+      var foco = (p.getAttribute("data-foco") || "").split(",").map(Number);
+      sc.classList.add("focando");
+      nos.forEach(function (n, i) { n.classList.toggle("foco", foco.indexOf(i) >= 0); });
+    }
+    /* a etapa ativa é a que aparece logo abaixo do diagrama fixo (ou perto do centro, quando ele rola junto) */
+    var atual = null, pedido = false;
+    function escolhe() {
+      pedido = false;
+      var solto = fig.classList.contains("solto");
+      var linha = solto ? innerHeight * 0.5 : fig.getBoundingClientRect().bottom + 24;
+      var melhor = null, dist = 1e9;
+      passos.forEach(function (p) {
+        var r = p.getBoundingClientRect();
+        if (r.bottom < linha - 10 || r.top > innerHeight - 130) return;
+        var d = Math.abs(r.top - linha);
+        if (d < dist) { dist = d; melhor = p; }
+      });
+      if (melhor && melhor !== atual) { atual = melhor; ativa(melhor); }
+    }
+    addEventListener("scroll", function () { if (!pedido) { pedido = true; requestAnimationFrame(escolhe); } }, { passive: true });
+    escolhe();
+    nos.forEach(function (n, i) {
+      n.addEventListener("click", function (e) {
+        if (e.target.closest(".mp-ex, a")) return;
+        var alvo = Array.prototype.find.call(passos, function (p) { return p.getAttribute("data-foco") === String(i); });
+        if (alvo) { var y = alvo.getBoundingClientRect().top - (fig.classList.contains("solto") ? innerHeight * 0.4 : (parseFloat(getComputedStyle(fig).top) || 0) + fig.offsetHeight + 24); scrollBy({ top: y, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
+      });
+    });
+    var det = sc.querySelector(".dg-detalhe");
+    sc.querySelectorAll(".mp-ex").forEach(function (b) {
+      b.addEventListener("click", function () {
+        sc.querySelectorAll(".mp-ex").forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
+        b.setAttribute("aria-pressed", "true");
+        if (det) det.innerHTML = b.querySelector("template").innerHTML;
       });
     });
   });

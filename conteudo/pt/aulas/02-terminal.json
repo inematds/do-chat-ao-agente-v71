@@ -111,7 +111,12 @@
         }
       ],
       "volta": "Não gostou? git restore volta o arquivo para a última versão salva",
-      "legenda": "Os mesmos arquivos servem para o Claude Code e para o Codex: os dois leem o AGENTS.md."
+      "legenda": "Os mesmos arquivos servem para o Claude Code e para o Codex: os dois leem o AGENTS.md.",
+      "rolagem": true,
+      "rolagem_fim": {
+        "titulo": "O ciclo completo",
+        "texto": "Você pede, o agente trabalha dentro da pasta seguindo o AGENTS.md e diz o que mudou. Você confere. Gostou, commit; não gostou, git restore."
+      }
     },
     {
       "tipo": "passos",

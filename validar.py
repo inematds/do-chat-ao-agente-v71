@@ -17,8 +17,9 @@ for p in aulas:
     h = p.read_text(); nome = p.parent.name
     m = re.search(r'<p class="objetivo"><b>[^<]*</b>(.*?)</p>', h, re.S)
     if not m or len(re.sub("<[^>]+>", "", m.group(1)).strip()) > 160: erros.append(f"{nome}: objetivo ausente ou longo")
-    if 'class="dg-no' not in h: erros.append(f"{nome}: sem diagrama")
-    if h.count('class="dg-no') < 3: erros.append(f"{nome}: diagrama com menos de 3 blocos")
+    nos = len(re.findall(r'class="[^"]*\bdg-no\b', h))
+    if not nos: erros.append(f"{nome}: sem diagrama")
+    elif nos < 3: erros.append(f"{nome}: diagrama com menos de 3 blocos")
     if 'class="copiar"' not in h: erros.append(f"{nome}: sem botão copiar")
     if 'class="q-op"' not in h or "<template class=\"ok\">" not in h: erros.append(f"{nome}: sem quiz com resposta oculta")
     if not re.search(r'data-competencias="[^"]+"', h): erros.append(f"{nome}: sem data-competencias")

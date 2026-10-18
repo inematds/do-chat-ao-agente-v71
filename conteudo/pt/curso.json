@@ -141,7 +141,11 @@
     "tamanho_texto": "Tamanho do texto",
     "tema": "Tema",
     "tema_escuro": "Escuro",
-    "tema_papel": "Papel claro"
+    "tema_papel": "Papel claro",
+    "role_dica": "Role a página: cada etapa abaixo acende a sua parte do diagrama.",
+    "pre_requisito": "requer",
+    "ver_aula": "Ver a aula",
+    "mapa_dica": "Clique num exercício para ver o que fazer e o \"pronto quando\"."
   },
   "icone": "camadas"
 }

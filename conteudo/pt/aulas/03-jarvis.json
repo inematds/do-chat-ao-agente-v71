@@ -34,7 +34,7 @@
     {
       "tipo": "diagrama",
       "titulo": "A arquitetura do seu assistente",
-      "sub": "Clique em cada bloco.",
+      "sub": "Do Telegram ao modelo e de volta.",
       "nos": [
         {
           "icone": "usuario",
@@ -103,7 +103,12 @@
         }
       ],
       "volta": "A resposta volta para o mesmo chat do Telegram",
-      "legenda": "Quer ver outros sistemas de assistente prontos para instalar? A área JARVIS do Eventos reúne vários."
+      "legenda": "Quer ver outros sistemas de assistente prontos para instalar? A área JARVIS do Eventos reúne vários.",
+      "rolagem": true,
+      "rolagem_fim": {
+        "titulo": "A conversa completa",
+        "texto": "Você escreve no Telegram, o INTELECTO junta personalidade e memória, o modelo responde e a resposta volta para o mesmo chat. Tudo seu, com o token guardado no .env."
+      }
     },
     {
       "tipo": "passos",

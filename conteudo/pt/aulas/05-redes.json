@@ -34,7 +34,7 @@
     {
       "tipo": "diagrama",
       "titulo": "A esteira de um canal com fonte",
-      "sub": "É o que o finviral, o saudeviral e o advviral fazem sozinhos. Clique em cada bloco.",
+      "sub": "É o que o finviral, o saudeviral e o advviral fazem sozinhos.",
       "nos": [
         {
           "icone": "lupa",
@@ -119,7 +119,12 @@
         }
       ],
       "volta": "Cada recusa no portão vira uma regra nova",
-      "legenda": "Sem fila e sem portão, automatizar rede social vira postar errado mais rápido."
+      "legenda": "Sem fila e sem portão, automatizar rede social vira postar errado mais rápido.",
+      "rolagem": true,
+      "rolagem_fim": {
+        "titulo": "A esteira inteira",
+        "texto": "Referências e regras alimentam a base com fonte; a base limita o roteiro; o portão decide o que sai; a agenda publica só em dia com assunto. Cada recusa vira regra nova."
+      }
     },
     {
       "tipo": "passos",
