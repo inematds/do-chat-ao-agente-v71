@@ -19,14 +19,32 @@ code{font-family:var(--mono);font-size:.88em;background:#1f1f29;border:1px solid
 .skip:focus{top:10px}
 .ico{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 
-/* barra do topo */
-.topo{position:sticky;top:0;z-index:60;height:var(--top);display:flex;align-items:center;gap:28px;padding:0 24px;background:rgba(12,12,16,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.marca{font:800 22px/1 var(--sora);letter-spacing:.02em;color:var(--txt);text-decoration:none}
-.marca span{color:var(--amb)}
-.topo nav{display:flex;gap:22px;font-size:14px}
-.topo nav a{color:var(--mut);text-decoration:none}.topo nav a:hover{color:var(--txt)}
-.topo .dir{margin-left:auto;display:flex;gap:10px;align-items:center}
-.menu-btn{display:none;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:8px 12px;font:600 14px var(--inter);cursor:pointer}
+/* barra do topo — padrão dos cursos INEMA (v2): curso | INEMA.CLUB - PRO · aulas · Aa */
+.topo{position:sticky;top:0;z-index:60;height:var(--top);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 24px;background:rgba(12,12,16,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topo .esq{display:flex;align-items:center;gap:10px;min-width:0}
+.marca{display:inline-flex;align-items:center;gap:9px;color:var(--amb);text-decoration:none;font:700 17px/1 var(--sora);white-space:nowrap}
+.marca .ico{width:24px;height:24px}
+.marca:hover{color:#fde047}
+.topo .sep{color:#525252}.topo .tr{color:#525252}
+.topo .club{color:var(--sky);font-size:14px;font-weight:600;text-decoration:none}.topo .club:hover{color:#7dd3fc}
+.topo .pro{color:#cbd5e1;font-size:14px;font-weight:600;text-decoration:none}.topo .pro:hover{color:#f1f5f9}
+.topo .dir{display:flex;align-items:center;gap:2px}
+.tlink{padding:7px 10px;border-radius:9px;color:#a3a3a3;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap;transition:color .15s,background .15s}
+.tlink:hover{color:var(--amb);background:var(--amb-a)}
+.tlink.on{color:var(--amb);background:var(--amb-a)}
+.tlink .longo{display:none}
+@media (min-width:1280px){.tlink .longo{display:inline}.tlink .curto{display:none}}
+.aa{position:relative;margin-left:6px}
+.aa-btn{background:none;border:1px solid transparent;border-radius:9px;color:#d4d4d8;font:600 14px var(--inter);padding:7px 10px;cursor:pointer}
+.aa-btn:hover,.aa-btn[aria-expanded="true"]{border-color:var(--line2);color:var(--txt)}
+.aa-pop{position:absolute;right:0;top:calc(100% + 8px);background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:12px;box-shadow:0 20px 50px -10px #000;min-width:190px}
+.aa-pop p{margin:0 0 8px;font-size:12.5px;color:var(--mut)}
+.aa-seg{display:flex;gap:6px}
+.aa-seg button{flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;color:var(--txt);font:700 14px var(--inter);padding:7px 0;cursor:pointer}
+.aa-seg button[aria-pressed="true"]{background:var(--amb);border-color:var(--amb);color:var(--amb-ink)}
+.miolo{zoom:var(--escala,1)}
+.menu-btn{display:none;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:7px 9px;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* casca */
 .casca{display:grid;grid-template-columns:var(--side) minmax(0,1fr);min-height:calc(100vh - var(--top))}
@@ -230,7 +248,8 @@ h1{margin:0;font:800 clamp(30px,4vw,46px)/1.12 var(--sora);letter-spacing:-.02em
   .lado{position:fixed;inset:var(--top) auto 0 0;width:min(320px,88vw);z-index:70;transform:translateX(-105%);transition:transform .25s;box-shadow:20px 0 60px #000}
   body.lado-aberto .lado{transform:none}
   .menu-btn{display:inline-flex}
-  .topo nav{display:none}
+  .tlink{display:none}
+  .topo .sep,.topo .club,.topo .tr,.topo .pro{display:none}
   .dg{flex-direction:column}
   .dg-seta{width:auto;height:30px;transform:rotate(90deg)}
   .dg.escada .dg-no{margin-bottom:0!important}
@@ -242,7 +261,7 @@ h1{margin:0;font:800 clamp(30px,4vw,46px)/1.12 var(--sora);letter-spacing:-.02em
   .principal{padding:24px 16px 60px}
   .nesta ul,.grade-aulas,.passos-tabs{grid-template-columns:1fr}
   .sec-cab{gap:12px}.num{width:38px;height:38px;font-size:16px}
-  .topo{padding:0 16px;gap:12px}
+  .topo{padding:0 12px;gap:8px}.marca{font-size:15px}
   .lead{font-size:16.5px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}

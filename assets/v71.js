@@ -34,6 +34,20 @@
   if (bc) bc.addEventListener("click", function () { marcar(bc.getAttribute("aria-pressed") !== "true"); });
   pintarProgresso();
 
+  /* Aa: tamanho do texto */
+  var aaBtn = document.querySelector(".aa-btn"), aaPop = document.querySelector(".aa-pop");
+  function escala(v) {
+    document.documentElement.style.setProperty("--escala", v);
+    document.querySelectorAll("[data-escala]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-escala") === String(v) ? "true" : "false"); });
+  }
+  escala(ler("escala", "1"));
+  if (aaBtn) {
+    aaBtn.addEventListener("click", function (e) { e.stopPropagation(); aaPop.hidden = !aaPop.hidden; aaBtn.setAttribute("aria-expanded", aaPop.hidden ? "false" : "true"); });
+    aaPop.addEventListener("click", function (e) { e.stopPropagation(); });
+    document.addEventListener("click", function () { aaPop.hidden = true; aaBtn.setAttribute("aria-expanded", "false"); });
+    document.querySelectorAll("[data-escala]").forEach(function (b) { b.addEventListener("click", function () { var v = b.getAttribute("data-escala"); escala(v); gravar("escala", v); }); });
+  }
+
   /* menu lateral no celular */
   var mb = document.querySelector(".menu-btn");
   if (mb) mb.addEventListener("click", function () {

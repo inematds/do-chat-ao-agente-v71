@@ -198,11 +198,22 @@ def cabeca(titulo, desc, prefixo, lang, canon):
 </head>"""
 
 
-def topo(curso, ui, prefixo):
-    nav = "".join(f'<a href="{l["href"]}">{l["t"]}</a>' for l in curso["topo"])
-    return (f'<a class="skip" href="#conteudo">{ui["pular"]}</a><header class="topo"><button type="button" class="menu-btn" aria-expanded="false" aria-controls="lado">{ic("menu")}{ui["aulas"]}</button>'
-            f'<a class="marca" href="{prefixo}index.html">INEMA<span>.</span></a><nav aria-label="INEMA">{nav}</nav>'
-            f'<div class="dir"><span class="pill">{ui["formato"]}</span></div></header>')
+def topo(curso, aulas, ui, prefixo, atual=""):
+    """Menu do topo no padrão dos cursos INEMA (v2): curso | INEMA.CLUB - PRO à esquerda; uma entrada por aula e Aa à direita."""
+    links = "".join(
+        f'<a href="{prefixo}aulas/{a["slug"]}/index.html" class="tlink{" on" if a["slug"] == atual else ""}"'
+        f'{" aria-current=\"page\"" if a["slug"] == atual else ""} title="{attr(a["titulo"])}">'
+        f'<span class="curto">A{a["num"]}</span><span class="longo">{a["menu"]}</span></a>' for a in aulas)
+    aa = (f'<div class="aa"><button type="button" class="aa-btn" aria-expanded="false" aria-controls="aparencia" title="{attr(ui["aparencia"])}">Aa</button>'
+          f'<div class="aa-pop" id="aparencia" hidden><p>{ui["tamanho_texto"]}</p><div class="aa-seg">'
+          f'<button type="button" data-escala="0.9">A−</button><button type="button" data-escala="1">A</button><button type="button" data-escala="1.12">A+</button>'
+          f'</div></div></div>')
+    return (f'<a class="skip" href="#conteudo">{ui["pular"]}</a><header class="topo"><div class="esq">'
+            f'<button type="button" class="menu-btn" aria-expanded="false" aria-controls="lado">{ic("menu")}<span class="sr">{ui["aulas"]}</span></button>'
+            f'<a class="marca" href="{prefixo}index.html">{ic(curso["icone"])}<span>{curso["nome"]}</span></a>'
+            f'<span class="sep">|</span><a class="club" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>'
+            f'<span class="tr">-</span><a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a></div>'
+            f'<nav class="dir" aria-label="{attr(ui["aulas"])}">{links}{aa}</nav></header>')
 
 
 def lado(curso, aulas, ui, prefixo, atual):
@@ -257,7 +268,7 @@ def pagina_aula(curso, aulas, a, idx, ui, lang):
     titulo = f'{a["titulo"]} · {curso["nome"]} · INEMA'
     return (cabeca(titulo, a["lead"], prefixo, lang, canon)
             + f'<body data-curso="{curso["id"]}" data-aula="{a["slug"]}" data-total="{len(aulas)}">'
-            + topo(curso, ui, prefixo)
+            + topo(curso, aulas, ui, prefixo, a["slug"])
             + '<div class="casca">' + lado(curso, aulas, ui, prefixo, a["slug"])
             + f'<main class="principal" id="conteudo"><div class="miolo" data-competencias="{attr(";".join(a["competencias"]))}">'
             + f'<div class="aula-topo"><div><p class="kicker">{ui["aula"]} {a["num"]}</p><h1>{a["titulo"]}</h1><p class="lead">{a["lead"]}</p></div>'
@@ -275,7 +286,7 @@ def pagina_inicio(curso, aulas, ui, lang):
     numeros = "".join(f'<div><b>{n["v"]}</b>{n["t"]}</div>' for n in p["numeros"])
     duas = "".join(f'<div class="painel"><h3>{b["t"]}</h3><ul>{"".join(f"<li>{i}</li>" for i in b["itens"])}</ul></div>' for b in p["blocos"])
     return (cabeca(f'{curso["nome"]} · INEMA', p["lead"], prefixo, lang, curso["url"])
-            + f'<body data-curso="{curso["id"]}" data-total="{len(aulas)}">' + topo(curso, ui, prefixo)
+            + f'<body data-curso="{curso["id"]}" data-total="{len(aulas)}">' + topo(curso, aulas, ui, prefixo)
             + '<div class="casca">' + lado(curso, aulas, ui, prefixo, "")
             + '<main class="principal" id="conteudo"><div class="miolo">'
             + f'<div class="hero"><div><p class="kicker">{p["kicker"]}</p><h1>{p["titulo"]}</h1><p class="lead">{p["lead"]}</p>'
