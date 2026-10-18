@@ -138,7 +138,10 @@
     "quiz_fim": "Teste concluído",
     "quiz_total": "Você acertou {a} de {n}. Acertando todas, a aula é marcada como concluída. Pode refazer quantas vezes quiser recarregando a página.",
     "aparencia": "Aparência",
-    "tamanho_texto": "Tamanho do texto"
+    "tamanho_texto": "Tamanho do texto",
+    "tema": "Tema",
+    "tema_escuro": "Escuro",
+    "tema_papel": "Papel claro"
   },
   "icone": "camadas"
 }

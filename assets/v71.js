@@ -34,6 +34,15 @@
   if (bc) bc.addEventListener("click", function () { marcar(bc.getAttribute("aria-pressed") !== "true"); });
   pintarProgresso();
 
+  /* Aa: tema (escuro / papel claro) */
+  function tema(t) {
+    if (t === "papel") document.documentElement.setAttribute("data-tema", "papel"); else document.documentElement.removeAttribute("data-tema");
+    document.querySelectorAll("[data-tema]").forEach(function (b) { if (b.tagName === "BUTTON") b.setAttribute("aria-pressed", b.getAttribute("data-tema") === t ? "true" : "false"); });
+    var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute("content", t === "papel" ? "#F7F3EA" : "#0c0c10");
+  }
+  tema(ler("tema", "escuro"));
+  document.querySelectorAll("button[data-tema]").forEach(function (b) { b.addEventListener("click", function () { var t = b.getAttribute("data-tema"); tema(t); gravar("tema", t); }); });
+
   /* Aa: tamanho do texto */
   var aaBtn = document.querySelector(".aa-btn"), aaPop = document.querySelector(".aa-pop");
   function escala(v) {

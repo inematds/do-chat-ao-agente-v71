@@ -178,7 +178,7 @@ def sec_links(s, ui):
 
 
 # ---------- página ----------
-def cabeca(titulo, desc, prefixo, lang, canon):
+def cabeca(titulo, desc, prefixo, lang, canon, curso_id):
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -195,6 +195,7 @@ def cabeca(titulo, desc, prefixo, lang, canon):
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="{prefixo}assets/v71.css"/>
+<script>try{{if(JSON.parse(localStorage.getItem("{curso_id}:tema"))==="papel")document.documentElement.setAttribute("data-tema","papel")}}catch(e){{}}</script>
 </head>"""
 
 
@@ -205,7 +206,9 @@ def topo(curso, aulas, ui, prefixo, atual=""):
         f'{" aria-current=\"page\"" if a["slug"] == atual else ""} title="{attr(a["titulo"])}">'
         f'<span class="curto">A{a["num"]}</span><span class="longo">{a["menu"]}</span></a>' for a in aulas)
     aa = (f'<div class="aa"><button type="button" class="aa-btn" aria-expanded="false" aria-controls="aparencia" title="{attr(ui["aparencia"])}">Aa</button>'
-          f'<div class="aa-pop" id="aparencia" hidden><p>{ui["tamanho_texto"]}</p><div class="aa-seg">'
+          f'<div class="aa-pop" id="aparencia" hidden><p>{ui["tema"]}</p><div class="aa-seg">'
+          f'<button type="button" data-tema="escuro">{ui["tema_escuro"]}</button><button type="button" data-tema="papel">{ui["tema_papel"]}</button></div>'
+          f'<p style="margin-top:12px">{ui["tamanho_texto"]}</p><div class="aa-seg">'
           f'<button type="button" data-escala="0.9">A−</button><button type="button" data-escala="1">A</button><button type="button" data-escala="1.12">A+</button>'
           f'</div></div></div>')
     return (f'<a class="skip" href="#conteudo">{ui["pular"]}</a><header class="topo"><div class="esq">'
@@ -266,7 +269,7 @@ def pagina_aula(curso, aulas, a, idx, ui, lang):
                f'<button type="button" class="btn neutro concluir" aria-pressed="false">{ic("check")}{ui["marcar_concluida"]}</button>{btn_prox_cheio}</div>')
     canon = f'{curso["url"]}aulas/{a["slug"]}/'
     titulo = f'{a["titulo"]} · {curso["nome"]} · INEMA'
-    return (cabeca(titulo, a["lead"], prefixo, lang, canon)
+    return (cabeca(titulo, a["lead"], prefixo, lang, canon, curso["id"])
             + f'<body data-curso="{curso["id"]}" data-aula="{a["slug"]}" data-total="{len(aulas)}">'
             + topo(curso, aulas, ui, prefixo, a["slug"])
             + '<div class="casca">' + lado(curso, aulas, ui, prefixo, a["slug"])
@@ -285,7 +288,7 @@ def pagina_inicio(curso, aulas, ui, lang):
                     f'<p>{a["lead"]}</p><span class="m">{a["minutos"]} min</span></a>' for a in aulas)
     numeros = "".join(f'<div><b>{n["v"]}</b>{n["t"]}</div>' for n in p["numeros"])
     duas = "".join(f'<div class="painel"><h3>{b["t"]}</h3><ul>{"".join(f"<li>{i}</li>" for i in b["itens"])}</ul></div>' for b in p["blocos"])
-    return (cabeca(f'{curso["nome"]} · INEMA', p["lead"], prefixo, lang, curso["url"])
+    return (cabeca(f'{curso["nome"]} · INEMA', p["lead"], prefixo, lang, curso["url"], curso["id"])
             + f'<body data-curso="{curso["id"]}" data-total="{len(aulas)}">' + topo(curso, aulas, ui, prefixo)
             + '<div class="casca">' + lado(curso, aulas, ui, prefixo, "")
             + '<main class="principal" id="conteudo"><div class="miolo">'
