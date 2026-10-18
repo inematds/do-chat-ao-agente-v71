@@ -400,3 +400,94 @@ h1{margin:0;font:800 clamp(30px,4vw,46px)/1.12 var(--sora);letter-spacing:-.02em
 .scrolly.fixo .sc-passo:last-child{height:30vh}
 .scrolly:not(.fixo) .sc-cap{display:none}
 .scrolly.fixo .mp-det{display:none}
+
+/* ===== rodada de refinamento v7.1 ===== */
+/* dois indicadores na barra lateral */
+.ind{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;font-size:13px}
+.ind-rot{color:var(--txt2);font-weight:600}
+.ind+.prog{margin-top:6px}
+.prog.pratica i{background:var(--ok)}
+.ind-nota{margin:8px 0 0;font-size:11.5px;line-height:1.4;color:var(--mut2)}
+
+/* conexão desenhada entre blocos + ponto de luz */
+.dg-seta{position:relative;width:48px}
+.dg-seta svg{width:44px;height:14px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dg-seta .pulso{position:absolute;left:4px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--amb);box-shadow:0 0 10px 2px rgba(250,204,21,.7);opacity:0}
+.scrolly.focando .dg-seta:has(+ .dg-no.foco) .pulso,.dg:not(.focando) .dg-seta:hover .pulso{animation:corre 1.4s ease-in-out infinite}
+@keyframes corre{0%{transform:translateX(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateX(34px);opacity:0}}
+
+/* hierarquia: bloco principal maior, com caixas internas */
+.dg:not(.escada) .dg-no.forte{flex:1.45 1 0}
+.dg-no.forte ul{gap:8px}
+.dg-no.forte li{padding:9px 10px;border-color:var(--amb-b);background:rgba(250,204,21,.04)}
+.dg-no li span{display:flex;flex-direction:column;gap:1px}
+.dg-no li small{font-size:11.5px;color:var(--mut);line-height:1.3}
+.dg-no.forte li span{font-weight:600}
+.dg-no .cab{font-size:16px}
+.dg-no.forte .cab{font-size:17px}
+
+/* botões de etapa no painel */
+.sc-nav{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.sc-ir{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line2);background:var(--card);color:var(--mut);border-radius:99px;padding:5px 12px 5px 5px;font:600 13px var(--inter);cursor:pointer;max-width:220px}
+.sc-ir b{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--sf2);color:var(--txt);font:700 12px var(--sora)}
+.sc-ir span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-ir:hover{border-color:var(--amb-b);color:var(--txt)}
+.sc-ir[aria-current="step"]{border-color:var(--amb);color:var(--txt);background:var(--amb-a)}
+.sc-ir[aria-current="step"] b{background:var(--amb);color:var(--amb-ink)}
+.scrolly:not(.fixo) .sc-nav{display:none}
+.sc-nav+.sc-cap{margin-top:12px}
+
+/* mapa em duas camadas: visão geral fechada, coluna em foco abre os exercícios */
+.mp-cont{margin:2px 0 0;font-size:13px;font-weight:600;color:var(--txt2)}
+.mp-feitos{color:var(--ok);margin-left:4px}
+.scrolly.fixo .mp-col .mp-exs{display:none}
+.scrolly.fixo .mp-col.aberto .mp-exs{display:grid}
+.scrolly.fixo .mp-col.aberto .mp-cont{display:none}
+.scrolly.fixo .mapa-f .mp-col.aberto{flex:1.6 1 0}
+.mp-ex.feito{border-color:rgba(74,222,128,.45)}
+.mp-ex.feito b::after{content:" ✓";color:var(--ok)}
+
+/* teste: rever o conceito */
+.q-ref{display:inline-flex;gap:6px;align-items:center;margin-top:10px;font-size:14px;font-weight:600;color:var(--amb-t)}
+.q-ref .ico{width:15px;height:15px}
+.q-nav{flex-wrap:wrap}
+
+/* gerador do plano */
+.ger-form{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.ger-form label{display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:600;color:var(--txt2)}
+.ger-form input,.ger-form select{background:var(--bg2);border:1px solid var(--line2);border-radius:10px;color:var(--txt);font:15px var(--inter);padding:9px 12px;min-width:170px;color-scheme:dark}
+html[data-tema="papel"] .ger-form input,html[data-tema="papel"] .ger-form select{color-scheme:light}
+.ger-res{margin-top:16px;display:grid;gap:14px}
+.ger-resumo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.ger-resumo div{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:12px 14px}
+.ger-resumo small{display:block;font-size:12px;color:var(--mut)}
+.ger-resumo b{font:800 22px var(--sora);color:var(--txt)}
+.ger-semanas{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;counter-reset:s}
+.ger-semanas li{border:1px solid var(--line);border-left:3px solid var(--amb);border-radius:10px;background:var(--card);padding:10px 12px;font-size:13.5px;color:var(--txt2)}
+.ger-semanas b{display:block;color:var(--txt);font:700 14px var(--sora)}
+.ger-md{max-height:340px;overflow:auto}
+.ger-acoes{display:flex;gap:10px;flex-wrap:wrap}
+@media (max-width:900px){.ger-resumo,.ger-semanas{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.scrolly.fixo .sc-cap{height:150px;overflow:hidden}
+.scrolly{overflow-anchor:none}
+html{overflow-anchor:none}
+/* modo fixo compacto: o painel precisa caber em notebook 1366×768 */
+.scrolly.fixo .sc-dica{display:none}
+.scrolly.fixo .sc-fig .painel{padding:16px 20px}
+.scrolly.fixo .sc-nav{margin-top:10px}
+.scrolly.fixo .sc-cap{height:112px;margin-top:8px;padding-top:9px}
+.scrolly.fixo .sc-cap h3{font-size:17px;margin:2px 0 4px}
+.scrolly.fixo .sc-cap p{font-size:15px;line-height:1.5}
+.scrolly.fixo .dg-no{padding:12px 12px;gap:6px}
+.scrolly.fixo .dg-no li{padding:5px 8px}
+.scrolly.fixo .dg-no.forte li{padding:6px 9px}
+.scrolly.fixo .dg-volta{margin-top:8px}
+.scrolly.fixo .dg.escada .dg-no:nth-of-type(2){margin-bottom:18px}.scrolly.fixo .dg.escada .dg-no:nth-of-type(3){margin-bottom:36px}.scrolly.fixo .dg.escada .dg-no:nth-of-type(4){margin-bottom:54px}
+.scrolly.fixo .mp-sub{display:none}
+.scrolly.fixo .mp-col{padding:10px 11px;gap:5px}
+.scrolly.fixo .mp-ex{padding:3px 7px}
+.scrolly.fixo .mp-exs{gap:4px}
+.scrolly.fixo .mp-fim{margin-top:8px;padding:7px 14px}
+.scrolly.fixo .mp-total{font-size:19px}
+.ger-resumo small::first-letter{text-transform:uppercase}
+.ger-md{white-space:pre-wrap}

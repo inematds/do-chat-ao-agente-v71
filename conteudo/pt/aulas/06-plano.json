@@ -84,28 +84,40 @@
       "legenda": "Ordem obrigatória: cada degrau usa o que o anterior montou."
     },
     {
-      "tipo": "codigo",
-      "titulo": "Seu plano de execução",
-      "sub": "Copie para a pasta do seu projeto e preencha as datas. Marque cada exercício só quando o \"pronto quando\" for verdade.",
-      "blocos": [
+      "tipo": "gerador",
+      "titulo": "Gere o seu plano com datas",
+      "sub": "Escolha a data de início e quanto tempo você tem por semana. O plano respeita os exercícios que pedem dias de uso real.",
+      "curso": "Do chat ao agente",
+      "horas_padrao": 5,
+      "degraus": [
         {
-          "rot": "plano.md",
-          "icone": "calendario",
-          "conteudo": "# Plano — Do chat ao agente\n\nInício: ____/____\n\n## Degrau 1 · Terminal (até ____/____)\n- [ ] E1 Primeira pasta pelo terminal\n- [ ] E2 AGENTS.md\n- [ ] E3 Primeira tarefa\n- [ ] E4 Git\n- [ ] E5 Segredo fora do texto\n- [ ] E6 O agente lê os seus arquivos\n\n## Degrau 2 · Seu Jarvis (até ____/____)\n- [ ] E1 meu-jarvis.md\n- [ ] E2 Bot no Telegram\n- [ ] E3 Instalar\n- [ ] E4 Teste de memória (2 dias)\n- [ ] E5 Nuvem ou local\n- [ ] E6 Rotina (5 dias seguidos)\n\n## Degrau 3 · Filas (até ____/____)\n- [ ] E1 Fila no papel\n- [ ] E2 Fila caseira\n- [ ] E3 Instalar o inemaccbot\n- [ ] E4 Dez tarefas e vá dormir\n- [ ] E5 O portão\n\n## Degrau 4 · Redes (até ____/____)\n- [ ] E1 Reel r7e no papel\n- [ ] E2 Os 5 do seu nicho\n- [ ] E3 Base com fonte\n- [ ] E4 Roteiro de 60 s\n- [ ] E5 Agenda\n- [ ] E6 Portão por uma semana\n\n## O que travou e a regra que criei\n- "
+          "titulo": "Degrau 1 · Terminal",
+          "aula": "terminal"
+        },
+        {
+          "titulo": "Degrau 2 · Seu Jarvis",
+          "aula": "jarvis"
+        },
+        {
+          "titulo": "Degrau 3 · Filas",
+          "aula": "filas"
+        },
+        {
+          "titulo": "Degrau 4 · Redes",
+          "aula": "redes"
         }
       ],
-      "saida": {
-        "selo": "real",
-        "abas": [
-          {
-            "rot": "Quando você travar",
-            "html": "<ul><li>Volte ao \"pronto quando\" do exercício anterior: quase sempre o problema começa ali.</li><li>Transforme o erro em regra no AGENTS.md ou no prompt.</li><li>Pergunte nos <a href=\"https://t.me/apoioinema\" target=\"_blank\" rel=\"noopener\">grupos do Telegram</a>.</li></ul>"
-          },
-          {
-            "rot": "Erros que mais custam",
-            "html": "<ul><li>Pular o degrau 1 porque parece simples.</li><li>Tirar o portão antes de ter dias seguidos sem recusa.</li><li>Publicar número sem trecho literal na base.</li></ul>"
-          }
-        ]
+      "txt": {
+        "titulo": "Plano — Do chat ao agente",
+        "inicio": "Início",
+        "ritmo": "Ritmo",
+        "termino": "Término previsto",
+        "ate": "até",
+        "pronto": "pronto quando",
+        "semanas": "semanas",
+        "travou": "## O que travou e a regra que criei",
+        "h": "h por semana",
+        "exs": "exercícios"
       }
     },
     {
@@ -147,7 +159,8 @@
           ],
           "certa": 1,
           "explica": "Terminal, assistente (Jarvis), filas e redes. Cada degrau usa o anterior.",
-          "cert": true
+          "cert": true,
+          "ref": "mapa"
         },
         {
           "p": "O que o \"pronto quando\" garante?",
@@ -158,7 +171,8 @@
             "Que o certificado foi emitido."
           ],
           "certa": 1,
-          "explica": "É o critério que você confere: só passe para o próximo exercício quando ele for verdade."
+          "explica": "É o critério que você confere: só passe para o próximo exercício quando ele for verdade.",
+          "ref": "pratica"
         },
         {
           "p": "Qual destes itens nunca deve ir para um arquivo de texto do projeto?",
@@ -169,7 +183,8 @@
             "As regras do nicho."
           ],
           "certa": 2,
-          "explica": "Token e chaves ficam só no .env, que está no .gitignore. Vale do degrau 1 ao 4."
+          "explica": "Token e chaves ficam só no .env, que está no .gitignore. Vale do degrau 1 ao 4.",
+          "ref": "mapa"
         },
         {
           "p": "Um fluxo vai publicar em nome da empresa toda madrugada. O que não pode faltar no começo?",
@@ -181,7 +196,8 @@
           ],
           "certa": 0,
           "explica": "Sem fila e sem portão, automatizar rede social vira postar errado mais rápido. O portão só sai depois de dias seguidos sem recusa.",
-          "cert": true
+          "cert": true,
+          "ref": "mapa"
         }
       ]
     },

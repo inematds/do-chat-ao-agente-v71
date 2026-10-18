@@ -71,19 +71,23 @@
           "itens": [
             {
               "icone": "arquivo",
-              "t": "AGENTS.md"
+              "t": "AGENTS.md",
+              "sub": "regras e quem é você"
             },
             {
               "icone": "arquivo",
-              "t": "index.html"
+              "t": "index.html",
+              "sub": "o trabalho"
             },
             {
               "icone": "cadeado",
-              "t": ".env (fora do Git)"
+              "t": ".env (fora do Git)",
+              "sub": "chaves e senhas"
             },
             {
               "icone": "git",
-              "t": ".git"
+              "t": ".git",
+              "sub": "histórico para desfazer"
             }
           ],
           "detalhe": "Tudo o que o agente precisa saber fica aqui: as regras no AGENTS.md, o trabalho nos arquivos, as chaves no .env (que o Git ignora) e o histórico no .git.",
@@ -279,7 +283,8 @@
           ],
           "certa": 1,
           "explica": "Chave só no .env, e o .env no .gitignore. Assim o git status não mostra o arquivo e ele não vai para o GitHub.",
-          "cert": true
+          "cert": true,
+          "ref": "codigo"
         },
         {
           "p": "O agente fez uma mudança grande que você não aprovou. O que fazer?",
@@ -290,7 +295,8 @@
             "Copiar o arquivo antigo de um backup manual."
           ],
           "certa": 2,
-          "explica": "Com um commit antes da mudança, git restore volta o arquivo em um comando. Por isso a regra: commit antes de pedir mudança grande."
+          "explica": "Com um commit antes da mudança, git restore volta o arquivo em um comando. Por isso a regra: commit antes de pedir mudança grande.",
+          "ref": "passos"
         },
         {
           "p": "Para que serve o AGENTS.md?",
@@ -301,7 +307,8 @@
             "É obrigatório só no Codex."
           ],
           "certa": 2,
-          "explica": "O AGENTS.md é o manual do funcionário. Claude Code e Codex leem o mesmo arquivo, então as regras valem para os dois."
+          "explica": "O AGENTS.md é o manual do funcionário. Claude Code e Codex leem o mesmo arquivo, então as regras valem para os dois.",
+          "ref": "codigo"
         }
       ]
     },

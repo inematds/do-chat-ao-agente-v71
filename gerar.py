@@ -7,7 +7,7 @@
 Cada aula é um JSON em conteudo/<lang>/aulas/. Textos de interface ficam em conteudo/<lang>/curso.json → "ui".
 Campos de texto aceitam <b>, <code>, <a> e <br>; o resto é escapado na origem (blocos de código).
 """
-import argparse, html, json, pathlib, sys
+import argparse, html, json, pathlib, re, sys
 
 RAIZ = pathlib.Path(__file__).resolve().parent
 
@@ -61,15 +61,24 @@ def attr(s):
 
 
 # ---------- seções ----------
+# conexão desenhada entre blocos; o ponto de luz corre quando o bloco seguinte está em foco
+CONECTOR = ('<span class="dg-seta" aria-hidden="true"><svg viewBox="0 0 48 14"><line x1="2" y1="7" x2="40" y2="7"/>'
+            '<path d="M36 2 L45 7 L36 12"/></svg><i class="pulso"></i></span>')
+
+
 def sec_diagrama(s, ui):
     estilo = s.get("estilo", "fluxo")
     partes = []
     for i, n in enumerate(s["nos"]):
         if i:
-            partes.append(f'<span class="dg-seta" aria-hidden="true">{ic("seta")}</span>')
+            partes.append(CONECTOR)
         itens = ""
         if n.get("itens"):
-            itens = "<ul>" + "".join(f'<li>{ic(it.get("icone", "alvo"))}{it["t"]}</li>' for it in n["itens"]) + "</ul>"
+            lis = []
+            for it in n["itens"]:
+                sub_it = f'<small>{it["sub"]}</small>' if it.get("sub") else ""
+                lis.append(f'<li>{ic(it.get("icone", "alvo"))}<span>{it["t"]}{sub_it}</span></li>')
+            itens = "<ul>" + "".join(lis) + "</ul>"
         sub = f'<span class="sub">{n["sub"]}</span>' if n.get("sub") else ""
         partes.append(
             f'<button type="button" class="dg-no{" forte" if n.get("forte") else ""}" aria-pressed="false">'
@@ -93,9 +102,12 @@ def figura_rolagem(figura, passos, leg, ui, dica=True):
     lis = "".join(f'<li class="sc-passo" data-foco="{",".join(map(str, p["foco"]))}"><span class="sc-n">{i + 1}/{len(passos)}</span>'
                   f'<h3>{p["titulo"]}</h3><p>{p["texto"]}</p></li>' for i, p in enumerate(passos))
     p0 = passos[0]
+    nav = "".join(f'<button type="button" class="sc-ir" data-ir="{i}" title="{attr(re.sub("<[^>]+>", "", p["titulo"]))}">'
+                  f'<b>{i + 1}</b><span>{p.get("curto", p["titulo"])}</span></button>' for i, p in enumerate(passos))
     cap = (f'<div class="sc-cap" aria-hidden="true"><span class="sc-n">1/{len(passos)}</span>'
            f'<h3>{p0["titulo"]}</h3><p>{p0["texto"]}</p></div>')
-    return (f'<div class="scrolly dg-bloco"><div class="sc-fig"><div class="painel">{figura}{cap}'
+    return (f'<div class="scrolly dg-bloco"><div class="sc-fig"><div class="painel">{figura}'
+            f'<nav class="sc-nav" aria-label="{attr(ui["etapas"])}">{nav}</nav>{cap}'
             f'{dica_html}</div></div>'
             f'<ol class="sc-passos">{lis}</ol>{leg}</div>')
 
@@ -106,12 +118,14 @@ def sec_mapa(s, ui, aulas):
     for i, d in enumerate(s["degraus"]):
         aula = next(a for a in aulas if a["slug"] == d["aula"])
         prat = next(x for x in aula["secoes"] if x["tipo"] == "pratica")
-        exs = "".join(f'<li><button type="button" class="mp-ex"><b>{e["titulo"].split(" · ")[0]}</b><span>{e["titulo"].split(" · ", 1)[-1]}</span>'
+        exs = "".join(f'<li><button type="button" class="mp-ex" data-ex="{d["aula"]}-{e["id"]}"><b>{e["titulo"].split(" · ")[0]}</b><span>{e["titulo"].split(" · ", 1)[-1]}</span>'
                       f'<template><b>{e["titulo"]}</b> · {e.get("min", "")}<br/>{e["texto"]}<br/><span class="pq">{ui["pronto_quando"]}</span> {e["pronto"]}</template></button></li>'
                       for e in prat["exercicios"])
+        n_ex = len(prat["exercicios"])
         seta = f'<span class="mp-dep" aria-hidden="true">{ic("seta")}<small>{ui["pre_requisito"]}</small></span>' if i else ""
         cols.append(f'{seta}<div class="mp-col dg-no{" forte" if i == 0 else ""}" data-no="{i}"><div class="mp-cab"><span class="ic">{ic(d["icone"])}</span>'
                     f'<span><small>{d["quando"]}</small><b>{d["titulo"]}</b></span></div><p class="mp-sub">{d["sub"]}</p>'
+                    f'<p class="mp-cont"><span>{n_ex} {ui["exercicios"]}</span><span class="mp-feitos" data-aula="{d["aula"]}" data-n="{n_ex}"></span></p>'
                     f'<ol class="mp-exs">{exs}</ol><p class="mp-saida">{ic("check")}{d["saida"]}</p>'
                     f'<a class="mp-aula" href="../{d["aula"]}/index.html">{ui["ver_aula"]} {ic("seta")}</a></div>')
     fim = (f'<div class="mp-fim">{ic("alvo")}<div><b>{s["resultado"]["titulo"]}</b>{s["resultado"]["texto"]}</div>'
@@ -190,7 +204,8 @@ def sec_simfila(s, ui):
             f'<p class="dg-legenda">{s["legenda"]}</p></div>')
 
 
-def sec_quiz(s, ui):
+def sec_quiz(s, ui, refs):
+    """refs: tipo de seção → (id, título), para o link "rever o conceito" de cada pergunta."""
     itens = []
     letras = "ABCDE"
     n = len(s["perguntas"])
@@ -198,14 +213,49 @@ def sec_quiz(s, ui):
         ops = "".join(f'<button type="button" class="q-op" data-certa="{1 if j == q["certa"] else 0}"><span class="l">{letras[j]}</span>{o}</button>'
                       for j, o in enumerate(q["opcoes"]))
         cert = f'<span class="cert-tag">{ic("escudo", "ico")}{ui["cert_tag"]}</span>' if q.get("cert") else ""
+        ref = refs.get(q.get("ref", "diagrama")) or refs.get("diagrama") or refs.get("mapa")
+        rever = f'<a class="q-ref" href="#{ref[0]}">{ic("seta")}{ui["rever"]} {ref[1]}</a>' if ref else ""
         itens.append(f'<div class="q-item"{"" if k == 0 else " hidden"}><p class="q-cont">{ui["pergunta"]} {k + 1} {ui["de"]} {n}</p>'
                      f'<p class="q-p">{q["p"]}{cert}</p><div class="q-ops">{ops}</div>'
                      f'<template class="ok"><div class="r ok">{ic("check")}{ui["correto"]}</div>{q["explica"]}</template>'
-                     f'<template class="no"><div class="r no">{ic("x")}{ui["errado"]}</div>{q["explica"]}</template></div>')
+                     f'<template class="no"><div class="r no">{ic("x")}{ui["errado"]}</div>{q["explica"]}{rever}</template></div>')
     total = f'<template class="total"><div class="r ok">{ic("check")}{ui["quiz_fim"]}</div>{ui["quiz_total"]}</template>'
     aguarda = f'<template class="q-aguarda"><p class="aguarda">{ui["quiz_aguarda"]}</p></template>'
-    return (f'<div class="quiz"><div>{"".join(itens)}<div class="q-nav"><button type="button" class="btn cheio q-prox" hidden data-fim="{attr(ui["quiz_ver"])}">{ui["proxima_pergunta"]} {ic("seta")}</button></div></div>'
+    return (f'<div class="quiz"><div>{"".join(itens)}<div class="q-nav">'
+            f'<button type="button" class="btn neutro q-revisar" hidden>{ui["revisar_erradas"]}</button>'
+            f'<button type="button" class="btn neutro q-refazer" hidden>{ui["refazer"]}</button>'
+            f'<button type="button" class="btn cheio q-prox" hidden data-fim="{attr(ui["quiz_ver"])}">{ui["proxima_pergunta"]} {ic("seta")}</button></div></div>'
             f'<div class="q-fb" aria-live="polite"></div>{total}{aguarda}</div>')
+
+
+def minutos(txt):
+    """'10 min' → 10; '1 h' → 60; dias/noite/semana contam 30 min de trabalho (o resto é tempo de calendário)."""
+    m = re.match(r"(\d+)\s*(min|h)", txt or "")
+    if m:
+        return int(m.group(1)) * (60 if m.group(2) == "h" else 1)
+    return 30
+
+
+def sec_gerador(s, ui, aulas):
+    """Gera o plano com datas a partir da data de início e das horas por semana (plano.md + .ics)."""
+    degraus = []
+    for d in s["degraus"]:
+        aula = next(a for a in aulas if a["slug"] == d["aula"])
+        prat = next(x for x in aula["secoes"] if x["tipo"] == "pratica")
+        degraus.append({"t": d["titulo"], "aula": d["aula"], "ex": [
+            {"id": e["id"], "t": e["titulo"], "min": minutos(e.get("min")), "dias": e.get("dias", 1), "rot": e.get("min", ""), "pronto": re.sub("<[^>]+>", "", e["pronto"])}
+            for e in prat["exercicios"]]})
+    horas = "".join(f'<option value="{h}"{" selected" if h == s.get("horas_padrao", 5) else ""}>{h} {ui["h_semana"]}</option>' for h in (2, 3, 5, 8, 12))
+    dados = attr(json.dumps({"degraus": degraus, "curso": s["curso"], "txt": s["txt"]}, ensure_ascii=False))
+    return (f'<div class="gerador" data-plano="{dados}"><div class="ger-form painel">'
+            f'<label>{ui["data_inicio"]}<input type="date" class="ger-ini"/></label>'
+            f'<label>{ui["ritmo"]}<select class="ger-h">{horas}</select></label>'
+            f'<button type="button" class="btn cheio ger-ir">{ic("calendario")}{ui["gerar_plano"]}</button></div>'
+            f'<div class="ger-res" hidden><div class="ger-resumo"></div><ol class="ger-semanas"></ol>'
+            f'<div class="cod"><div class="cod-cab">{ic("arquivo")}<b>plano.md</b>'
+            f'<button type="button" class="copiar" data-rot="{attr(ui["copiar"])}" data-ok="{attr(ui["copiado"])}">{ic("copiar")}<span>{ui["copiar"]}</span></button></div><pre class="ger-md"></pre></div>'
+            f'<div class="ger-acoes"><button type="button" class="btn neutro ger-baixa-md">{ic("arquivo")}{ui["baixar_md"]}</button>'
+            f'<button type="button" class="btn neutro ger-baixa-ics">{ic("calendario")}{ui["baixar_ics"]}</button></div></div></div>')
 
 
 def sec_texto(s, ui):
@@ -262,6 +312,10 @@ def topo(curso, aulas, ui, prefixo, atual=""):
             f'<nav class="dir" aria-label="{attr(ui["aulas"])}">{links}{aa}</nav></header>')
 
 
+def total_ex(aulas):
+    return sum(len(x["exercicios"]) for a in aulas for x in a["secoes"] if x["tipo"] == "pratica")
+
+
 def lado(curso, aulas, ui, prefixo, atual):
     itens = []
     for a in aulas:
@@ -272,7 +326,10 @@ def lado(curso, aulas, ui, prefixo, atual):
     card = curso["lado_card"]
     return (f'<aside class="lado" id="lado" aria-label="{attr(ui["aulas"])}"><a class="voltar" href="{curso["volta"]["href"]}">{ic("voltar")}{curso["volta"]["t"]}</a>'
             f'<p class="curso-nome">{curso["nome"]}</p><p class="curso-sub">{curso["sub"]}</p>'
-            f'<div class="prog" aria-hidden="true"><i></i></div><span class="prog-txt"><span data-pct>0</span>% {ui["concluido"]}</span>'
+            f'<div class="ind"><span class="ind-rot">{ui["ind_estudo"]}</span><span class="prog-txt"><span data-pct>0</span>%</span></div>'
+            f'<div class="prog" aria-hidden="true"><i></i></div>'
+            f'<div class="ind"><span class="ind-rot">{ui["ind_pratica"]}</span><span class="prog-txt"><span data-prat>0</span>/{total_ex(aulas)}</span></div>'
+            f'<div class="prog pratica" aria-hidden="true"><i></i></div><p class="ind-nota">{ui["ind_nota"]}</p>'
             f'<ol class="lista-aulas">{"".join(itens)}</ol>'
             f'<div class="lado-card">{card["rot"]}<b>{card["t"]}</b>{card["texto"]}<br/><a href="{card["href"]}" target="_blank" rel="noopener">{card["link"]} →</a></div></aside>')
 
@@ -284,6 +341,11 @@ def rodape(curso):
 def pagina_aula(curso, aulas, a, idx, ui, lang):
     prefixo = "../../"
     secs = []
+    refs, k = {}, 0
+    for x in a["secoes"]:
+        if x["tipo"] == "links": continue
+        k += 1
+        refs.setdefault(x["tipo"], (f"s{k}", re.sub("<[^>]+>", "", x["titulo"])))
     num = 0
     for s in a["secoes"]:
         t = s["tipo"]
@@ -298,7 +360,8 @@ def pagina_aula(curso, aulas, a, idx, ui, lang):
         elif t == "pratica": corpo = sec_pratica(s, ui, a["slug"])
         elif t == "video": corpo = sec_video(s, ui, curso, prefixo)
         elif t == "simfila": corpo = sec_simfila(s, ui)
-        elif t == "quiz": corpo = sec_quiz(s, ui)
+        elif t == "quiz": corpo = sec_quiz(s, ui, refs)
+        elif t == "gerador": corpo = sec_gerador(s, ui, aulas)
         elif t == "texto": corpo = sec_texto(s, ui)
         elif t == "resumo": corpo = sec_resumo(s, ui)
         elif t == "links": corpo = sec_links(s, ui)
@@ -317,7 +380,7 @@ def pagina_aula(curso, aulas, a, idx, ui, lang):
     canon = f'{curso["url"]}aulas/{a["slug"]}/'
     titulo = f'{a["titulo"]} · {curso["nome"]} · INEMA'
     return (cabeca(titulo, a["lead"], prefixo, lang, canon, curso["id"])
-            + f'<body data-curso="{curso["id"]}" data-aula="{a["slug"]}" data-total="{len(aulas)}">'
+            + f'<body data-curso="{curso["id"]}" data-aula="{a["slug"]}" data-total="{len(aulas)}" data-total-ex="{total_ex(aulas)}">'
             + topo(curso, aulas, ui, prefixo, a["slug"])
             + '<div class="casca">' + lado(curso, aulas, ui, prefixo, a["slug"])
             + f'<main class="principal" id="conteudo"><div class="miolo" data-competencias="{attr(";".join(a["competencias"]))}">'
@@ -336,7 +399,7 @@ def pagina_inicio(curso, aulas, ui, lang):
     numeros = "".join(f'<div><b>{n["v"]}</b>{n["t"]}</div>' for n in p["numeros"])
     duas = "".join(f'<div class="painel"><h3>{b["t"]}</h3><ul>{"".join(f"<li>{i}</li>" for i in b["itens"])}</ul></div>' for b in p["blocos"])
     return (cabeca(f'{curso["nome"]} · INEMA', p["lead"], prefixo, lang, curso["url"], curso["id"])
-            + f'<body data-curso="{curso["id"]}" data-total="{len(aulas)}">' + topo(curso, aulas, ui, prefixo)
+            + f'<body data-curso="{curso["id"]}" data-total="{len(aulas)}" data-total-ex="{total_ex(aulas)}">' + topo(curso, aulas, ui, prefixo)
             + '<div class="casca">' + lado(curso, aulas, ui, prefixo, "")
             + '<main class="principal" id="conteudo"><div class="miolo">'
             + f'<div class="hero"><div><p class="kicker">{p["kicker"]}</p><h1>{p["titulo"]}</h1><p class="lead">{p["lead"]}</p>'

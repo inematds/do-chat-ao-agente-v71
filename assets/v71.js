@@ -22,6 +22,24 @@
     document.querySelectorAll("[data-pct]").forEach(function (el) { el.textContent = pct; });
     var b = document.querySelector(".concluir");
     if (b && AULA) b.setAttribute("aria-pressed", feitas[AULA] ? "true" : "false");
+    pintarPratica();
+  }
+  function praticas() {
+    var feitos = {};
+    try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k.indexOf(CURSO + ":ex:") === 0 && localStorage.getItem(k) === "true") feitos[k.slice(CURSO.length + 4)] = 1; } } catch (e) {}
+    return feitos;
+  }
+  function pintarPratica() {
+    var tot = parseInt(document.body.getAttribute("data-total-ex") || "0", 10);
+    var f = praticas(), n = Object.keys(f).length;
+    document.querySelectorAll("[data-prat]").forEach(function (el) { el.textContent = n; });
+    document.querySelectorAll(".prog.pratica i").forEach(function (i) { i.style.width = (tot ? Math.round(n / tot * 100) : 0) + "%"; });
+    document.querySelectorAll(".mp-ex[data-ex]").forEach(function (b) { b.classList.toggle("feito", !!f[b.getAttribute("data-ex")]); });
+    document.querySelectorAll(".mp-feitos").forEach(function (el) {
+      var a = el.getAttribute("data-aula"), c = 0;
+      Object.keys(f).forEach(function (k) { if (k.indexOf(a + "-") === 0) c++; });
+      el.textContent = c ? "· " + c + "/" + el.getAttribute("data-n") : "";
+    });
   }
   function marcar(valor) {
     if (!AULA) return;
@@ -88,11 +106,18 @@
     var reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
     var atual = null, pedido = false;
     function fixo() { return sc.classList.contains("fixo"); }
+    var irs = sc.querySelectorAll(".sc-ir");
     function ajusta() {
+      fig.style.minHeight = "";
       sc.classList.add("fixo");
+      var col = sc.querySelector(".mp-col"); if (col) col.classList.add("aberto");
       var cabe = innerWidth > 900 && fig.offsetHeight <= innerHeight - 70;
+      var alto = fig.offsetHeight;
+      if (col) col.classList.remove("aberto");
       sc.classList.toggle("fixo", cabe);
       fig.classList.toggle("solto", !cabe);
+      /* altura travada: abrir coluna ou trocar legenda não empurra as etapas durante a rolagem */
+      fig.style.minHeight = cabe ? alto + "px" : "";
     }
     function legenda(html) {
       if (!cap) return;
@@ -104,7 +129,9 @@
       passos.forEach(function (o) { o.classList.toggle("ativo", o === p); });
       var foco = (p.getAttribute("data-foco") || "").split(",").map(Number);
       sc.classList.add("focando");
-      nos.forEach(function (n, i) { n.classList.toggle("foco", foco.indexOf(i) >= 0); });
+      nos.forEach(function (n, i) { n.classList.toggle("foco", foco.indexOf(i) >= 0); n.classList.toggle("aberto", foco.length === 1 && foco[0] === i); });
+      var idx = Array.prototype.indexOf.call(passos, p);
+      irs.forEach(function (b, i) { b.setAttribute("aria-current", i === idx ? "step" : "false"); });
       if (fixo()) legenda(p.innerHTML);
     }
     function linha() { return fixo() ? innerHeight * 0.62 : innerHeight * 0.5; }
@@ -123,15 +150,19 @@
     ajusta(); escolhe();
     addEventListener("resize", function () { ajusta(); atual = null; escolhe(); });
     addEventListener("scroll", function () { if (!pedido) { pedido = true; requestAnimationFrame(escolhe); } }, { passive: true });
+    function irPara(alvo) {
+      if (!alvo) return;
+      var y = alvo.getBoundingClientRect().top - linha() + (fixo() ? 40 : 2);
+      if (!fixo()) { ativa(alvo); atual = alvo; }
+      scrollBy({ top: y, behavior: reduz ? "auto" : "smooth" });
+    }
     nos.forEach(function (n, i) {
       n.addEventListener("click", function (e) {
         if (e.target.closest(".mp-ex, a")) return;
-        var alvo = Array.prototype.find.call(passos, function (p) { return p.getAttribute("data-foco") === String(i); });
-        if (!alvo) return;
-        var y = alvo.getBoundingClientRect().top - linha() + 2;
-        scrollBy({ top: y, behavior: reduz ? "auto" : "smooth" });
+        irPara(Array.prototype.find.call(passos, function (p) { return p.getAttribute("data-foco") === String(i); }));
       });
     });
+    irs.forEach(function (b, i) { b.addEventListener("click", function () { irPara(passos[i]); }); });
     sc.querySelectorAll(".mp-ex").forEach(function (b) {
       b.addEventListener("click", function () {
         sc.querySelectorAll(".mp-ex").forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
@@ -180,48 +211,48 @@
   document.querySelectorAll(".exc input[type=checkbox]").forEach(function (c) {
     var k = "ex:" + c.getAttribute("data-id");
     c.checked = !!ler(k, false);
-    c.addEventListener("change", function () { gravar(k, c.checked); });
+    c.addEventListener("change", function () { gravar(k, c.checked); pintarPratica(); });
   });
 
-  /* quiz: resposta só aparece depois da tentativa */
+  /* quiz: resposta só aparece depois da tentativa; no fim, refazer tudo ou revisar só as erradas */
   document.querySelectorAll(".quiz").forEach(function (qz) {
-    var perguntas = qz.querySelectorAll(".q-item");
-    var fb = qz.querySelector(".q-fb");
-    var prox = qz.querySelector(".q-prox");
-    var i = 0, acertos = 0;
-    function mostrar(n) {
-      perguntas.forEach(function (p, k) { p.hidden = k !== n; });
+    var perguntas = Array.prototype.slice.call(qz.querySelectorAll(".q-item"));
+    var fb = qz.querySelector(".q-fb"), prox = qz.querySelector(".q-prox");
+    var refazer = qz.querySelector(".q-refazer"), revisar = qz.querySelector(".q-revisar");
+    var fila = [], pos = 0, erradas = [], acertos = 0, rodada = 0;
+    function limpa(p) { p.querySelectorAll(".q-op").forEach(function (o) { o.disabled = false; o.classList.remove("certa", "errada"); }); }
+    function mostra() {
+      perguntas.forEach(function (p, k) { p.hidden = k !== fila[pos]; });
       fb.innerHTML = qz.querySelector(".q-aguarda").innerHTML;
-      if (prox) prox.hidden = true;
+      prox.hidden = true; refazer.hidden = true; revisar.hidden = true;
+      prox.textContent = prox.getAttribute("data-prox") || prox.textContent;
     }
-    perguntas.forEach(function (p) {
+    function comeca(lista) { fila = lista; pos = 0; erradas = []; acertos = 0; rodada++; fila.forEach(function (k) { limpa(perguntas[k]); }); mostra(); }
+    prox.setAttribute("data-prox", prox.textContent);
+    perguntas.forEach(function (p, k) {
       p.querySelectorAll(".q-op").forEach(function (op) {
         op.addEventListener("click", function () {
           var certa = op.getAttribute("data-certa") === "1";
-          p.querySelectorAll(".q-op").forEach(function (o) {
-            o.disabled = true;
-            if (o.getAttribute("data-certa") === "1") o.classList.add("certa");
-          });
-          if (!certa) op.classList.add("errada"); else acertos++;
+          p.querySelectorAll(".q-op").forEach(function (o) { o.disabled = true; if (o.getAttribute("data-certa") === "1") o.classList.add("certa"); });
+          if (!certa) { op.classList.add("errada"); erradas.push(k); } else acertos++;
           var t = p.querySelector(certa ? "template.ok" : "template.no");
           fb.innerHTML = t ? t.innerHTML : "";
-          if (prox) {
-            prox.hidden = false;
-            if (i === perguntas.length - 1) prox.textContent = prox.getAttribute("data-fim");
-          }
+          prox.hidden = false;
+          if (pos === fila.length - 1) prox.textContent = prox.getAttribute("data-fim");
         });
       });
     });
-    if (prox) prox.addEventListener("click", function () {
-      if (i < perguntas.length - 1) { i++; mostrar(i); }
-      else {
-        var tot = qz.querySelector("template.total");
-        fb.innerHTML = tot ? tot.innerHTML.replace("{a}", acertos).replace("{n}", perguntas.length) : "";
-        prox.hidden = true;
-        if (acertos === perguntas.length) marcar(true);
-      }
+    prox.addEventListener("click", function () {
+      if (pos < fila.length - 1) { pos++; mostra(); return; }
+      var tot = qz.querySelector("template.total");
+      fb.innerHTML = tot ? tot.innerHTML.replace("{a}", acertos).replace("{n}", fila.length) : "";
+      prox.hidden = true; refazer.hidden = false; revisar.hidden = erradas.length === 0;
+      if (erradas.length === 0 && fila.length === perguntas.length) marcar(true);
+      if (erradas.length === 0 && rodada > 1) marcar(true);
     });
-    mostrar(0);
+    refazer.addEventListener("click", function () { comeca(perguntas.map(function (_, k) { return k; })); });
+    revisar.addEventListener("click", function () { comeca(erradas.slice()); });
+    comeca(perguntas.map(function (_, k) { return k; }));
   });
 
   /* simulação da fila caseira: entrada → rodando → feito / falhou; Ctrl+C deixa a tarefa em "rodando" e a próxima rodada a devolve para a entrada */
@@ -268,5 +299,54 @@
     });
     sim.querySelector('[data-acao="zerar"]').addEventListener("click", reiniciar);
     reiniciar();
+  });
+  /* gerador do plano: data de início + horas por semana → plano.md e .ics */
+  document.querySelectorAll(".gerador").forEach(function (g) {
+    var D = JSON.parse(g.getAttribute("data-plano")), T = D.txt;
+    var ini = g.querySelector(".ger-ini"), hs = g.querySelector(".ger-h");
+    var hoje = new Date(); ini.value = ler("plano-ini", hoje.toISOString().slice(0, 10)); hs.value = ler("plano-h", hs.value);
+    var ultimo = null;
+    function fmt(d) { return ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2); }
+    function ymd(d) { return d.getFullYear() + ("0" + (d.getMonth() + 1)).slice(-2) + ("0" + d.getDate()).slice(-2); }
+    function soma(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+    function gera() {
+      var p = ini.value.split("-"), inicio = new Date(+p[0], +p[1] - 1, +p[2]);
+      var h = parseInt(hs.value, 10), porDia = h * 60 / 7, dia = 0, usado = 0, md = [], cal = [], semanas = [];
+      md.push("# " + T.titulo, "", T.inicio + ": " + fmt(inicio) + " · " + T.ritmo + ": " + h + " " + T.h, "");
+      D.degraus.forEach(function (dg) {
+        var linhas = [], fim = null;
+        dg.ex.forEach(function (e) {
+          var m = e.min;
+          while (m > 0) { var livre = porDia - usado; if (livre <= 0) { dia++; usado = 0; continue; } var u = Math.min(m, livre); m -= u; usado += u; }
+          var comeco = soma(inicio, dia), termina = soma(inicio, dia + e.dias - 1);
+          if (e.dias > 1) { dia += e.dias - 1; usado = porDia; }
+          fim = termina;
+          linhas.push("- [ ] " + fmt(comeco) + (e.dias > 1 ? "–" + fmt(termina) : "") + " · " + e.t + " (" + e.rot + ") — " + T.pronto + ": " + e.pronto);
+          cal.push({ t: e.t, ini: comeco, fim: termina, d: T.pronto + ": " + e.pronto });
+        });
+        md.push("## " + dg.t + " (" + T.ate + " " + fmt(fim) + ")"); md = md.concat(linhas); md.push("");
+        semanas.push({ t: dg.t, n: dg.ex.length, fim: fim });
+      });
+      var termino = semanas[semanas.length - 1].fim, nsem = Math.ceil(((termino - inicio) / 864e5 + 1) / 7);
+      md.splice(3, 0, T.termino + ": " + fmt(termino) + " (" + nsem + " " + T.semanas + ")");
+      md.push(T.travou, "- ");
+      g.querySelector(".ger-md").textContent = md.join("\n");
+      g.querySelector(".ger-resumo").innerHTML = "<div><small>" + T.inicio + "</small><b>" + fmt(inicio) + "</b></div><div><small>" + T.ritmo + "</small><b>" + h + " " + T.h + "</b></div><div><small>" + T.termino + "</small><b>" + fmt(termino) + "</b></div><div><small>" + T.semanas + "</small><b>" + nsem + "</b></div>";
+      g.querySelector(".ger-semanas").innerHTML = semanas.map(function (s, i) { return "<li><b>" + s.t + "</b><span>" + s.n + " " + T.exs + " · " + T.ate + " " + fmt(s.fim) + "</span></li>"; }).join("");
+      ultimo = { md: md.join("\n"), cal: cal };
+      g.querySelector(".ger-res").hidden = false;
+      gravar("plano-ini", ini.value); gravar("plano-h", hs.value);
+    }
+    function baixa(nome, tipo, txt) { var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([txt], { type: tipo })); a.download = nome; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+    g.querySelector(".ger-ir").addEventListener("click", gera);
+    g.querySelector(".ger-baixa-md").addEventListener("click", function () { if (ultimo) baixa("plano.md", "text/markdown", ultimo.md); });
+    g.querySelector(".ger-baixa-ics").addEventListener("click", function () {
+      if (!ultimo) return;
+      var esc = function (t) { return t.replace(/[,;\\]/g, "\\$&"); };
+      var L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//INEMA//" + D.curso + "//PT"];
+      ultimo.cal.forEach(function (c, i) { L.push("BEGIN:VEVENT", "UID:" + ymd(c.ini) + "-" + i + "@inema", "DTSTAMP:" + ymd(new Date()) + "T000000Z", "DTSTART;VALUE=DATE:" + ymd(c.ini), "DTEND;VALUE=DATE:" + ymd(soma(c.fim, 1)), "SUMMARY:" + esc(D.curso + " · " + c.t), "DESCRIPTION:" + esc(c.d), "END:VEVENT"); });
+      L.push("END:VCALENDAR");
+      baixa("plano-do-chat-ao-agente.ics", "text/calendar", L.join("\r\n"));
+    });
   });
 })();

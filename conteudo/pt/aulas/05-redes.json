@@ -59,15 +59,18 @@
           "itens": [
             {
               "icone": "lista",
-              "t": "Número ou fato"
+              "t": "Número ou fato",
+              "sub": "o que vai para a tela"
             },
             {
               "icone": "usuario",
-              "t": "Quem disse"
+              "t": "Quem disse",
+              "sub": "canal e vídeo"
             },
             {
               "icone": "chat",
-              "t": "Trecho literal"
+              "t": "Trecho literal",
+              "sub": "achado na transcrição"
             }
           ],
           "detalhe": "A partir da transcrição, cada número entra com quem disse, o vídeo e o trecho literal. Você confere cada trecho na transcrição.",
@@ -290,7 +293,8 @@
           "titulo": "E6 · O portão antes de publicar",
           "min": "1 semana",
           "texto": "Rode uma semana com aprovação manual e anote cada recusa como regra.",
-          "pronto": "você passou 3 dias seguidos sem precisar recusar."
+          "pronto": "você passou 3 dias seguidos sem precisar recusar.",
+          "dias": 7
         }
       ],
       "fonte": "Exercícios completos e o desafio extra (3 vídeos promoavatar para o mesmo público): <a href=\"https://github.com/inematds/jornada-agentes/blob/main/exercicios/04-redes.md\" target=\"_blank\" rel=\"noopener\">jornada-agentes/exercicios/04-redes.md</a>."
@@ -316,7 +320,8 @@
           ],
           "certa": 2,
           "explica": "A regra do E4: todo número do roteiro está na base.md. Se não estiver, o roteiro volta.",
-          "cert": true
+          "cert": true,
+          "ref": "diagrama"
         },
         {
           "p": "Qual é a primeira frase de um reel r7e?",
@@ -327,7 +332,8 @@
             "O convite para comentar."
           ],
           "certa": 1,
-          "explica": "Gancho é o resultado em 2 segundos. O nome da solução só aparece na etapa 5 (descoberta)."
+          "explica": "Gancho é o resultado em 2 segundos. O nome da solução só aparece na etapa 5 (descoberta).",
+          "ref": "passos"
         },
         {
           "p": "Quando é razoável tirar o portão de uma etapa?",
@@ -338,7 +344,8 @@
             "Quando o canal passar de mil inscritos."
           ],
           "certa": 1,
-          "explica": "O E6 pede três dias seguidos sem recusa. Só então pense em tirar o portão de alguma etapa."
+          "explica": "O E6 pede três dias seguidos sem recusa. Só então pense em tirar o portão de alguma etapa.",
+          "ref": "pratica"
         }
       ]
     },

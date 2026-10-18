@@ -42,15 +42,18 @@
           "itens": [
             {
               "icone": "pasta",
-              "t": "Pasta do projeto"
+              "t": "Pasta do projeto",
+              "sub": "onde o agente trabalha"
             },
             {
               "icone": "arquivo",
-              "t": "AGENTS.md"
+              "t": "AGENTS.md",
+              "sub": "as regras que ele lê"
             },
             {
               "icone": "git",
-              "t": "Git para desfazer"
+              "t": "Git para desfazer",
+              "sub": "volta qualquer erro"
             }
           ],
           "detalhe": "O agente (Claude Code ou Codex) trabalha dentro de uma pasta sua, lê um manual de regras (AGENTS.md) e você desfaz qualquer erro com o Git. É a base de tudo o que vem depois.",
@@ -219,7 +222,8 @@
             "O chat não consegue escrever código."
           ],
           "certa": 1,
-          "explica": "A virada não é trocar de modelo: é mudar de lugar. O agente lê a sua pasta, executa tarefas e segue trabalhando quando você fecha a janela."
+          "explica": "A virada não é trocar de modelo: é mudar de lugar. O agente lê a sua pasta, executa tarefas e segue trabalhando quando você fecha a janela.",
+          "ref": "diagrama"
         },
         {
           "p": "Por que não vale pular a sequência 1?",
@@ -231,7 +235,8 @@
           ],
           "certa": 1,
           "explica": "Quem pula a sequência 1 empaca nas outras três. Assistente, fila e redes usam pasta, regras, .env e Git o tempo todo.",
-          "cert": true
+          "cert": true,
+          "ref": "diagrama"
         },
         {
           "p": "Você já usa Claude Code na sua pasta, tem AGENTS.md e Git. Qual o próximo passo?",
@@ -242,7 +247,8 @@
             "Voltar ao chat para treinar prompts."
           ],
           "certa": 2,
-          "explica": "Com o degrau 1 firme, o próximo é o assistente próprio: desenhar o meu-jarvis.md e instalar o INTELECTO."
+          "explica": "Com o degrau 1 firme, o próximo é o assistente próprio: desenhar o meu-jarvis.md e instalar o INTELECTO.",
+          "ref": "passos"
         }
       ]
     }

@@ -63,11 +63,13 @@
           "itens": [
             {
               "icone": "memoria",
-              "t": "Sobrevive a quedas"
+              "t": "Sobrevive a quedas",
+              "sub": "tarefa guardada em disco"
             },
             {
               "icone": "relogio",
-              "t": "Retoma de onde parou"
+              "t": "Retoma de onde parou",
+              "sub": "rodando/ volta para a entrada"
             }
           ],
           "detalhe": "A tarefa fica guardada. Se o computador desligar ou você interromper, a próxima rodada pega o que sobrou, sem refazer o que já foi feito.",
@@ -202,7 +204,8 @@
           "titulo": "E4 · Dez tarefas e vá dormir",
           "min": "1 noite",
           "texto": "Mande 5 a 10 tarefas da sua lista e vá fazer outra coisa.",
-          "pronto": "no dia seguinte você conferiu cada resultado e anotou quantas saíram certas na primeira."
+          "pronto": "no dia seguinte você conferiu cada resultado e anotou quantas saíram certas na primeira.",
+          "dias": 1
         },
         {
           "id": "e5",
@@ -234,7 +237,8 @@
             "A fila só volta a funcionar no dia seguinte."
           ],
           "certa": 1,
-          "explica": "É o que torna a fila durável: o que ficou em rodando/ volta para entrada/, e o que já está em feito/ não é refeito."
+          "explica": "É o que torna a fila durável: o que ficou em rodando/ volta para entrada/, e o que já está em feito/ não é refeito.",
+          "ref": "simfila"
         },
         {
           "p": "Em qual tarefa o portão humano é mais importante?",
@@ -246,7 +250,8 @@
           ],
           "certa": 2,
           "explica": "Portão vai antes do que tem consequência fora: publicar, enviar, gastar. Transcrever para uso interno pode rodar sozinho.",
-          "cert": true
+          "cert": true,
+          "ref": "diagrama"
         },
         {
           "p": "Qual é o sinal de que você está gerenciando, e não só usando?",
@@ -257,7 +262,8 @@
             "Desligar todos os portões."
           ],
           "certa": 1,
-          "explica": "O E5 e o desafio extra mostram isso: você lê, corrige, aprova, e a tarefa que mais falhou ganha uma regra nova no AGENTS.md ou no prompt."
+          "explica": "O E5 e o desafio extra mostram isso: você lê, corrige, aprova, e a tarefa que mais falhou ganha uma regra nova no AGENTS.md ou no prompt.",
+          "ref": "pratica"
         }
       ]
     },

@@ -71,15 +71,18 @@
           "itens": [
             {
               "icone": "usuario",
-              "t": "Personalidade"
+              "t": "Personalidade",
+              "sub": "do seu meu-jarvis.md"
             },
             {
               "icone": "memoria",
-              "t": "Memória das conversas"
+              "t": "Memória das conversas",
+              "sub": "o que você contou"
             },
             {
               "icone": "lista",
-              "t": "Rotinas e pedidos fixos"
+              "t": "Rotinas e pedidos fixos",
+              "sub": "\"dia\" → 3 prioridades"
             }
           ],
           "detalhe": "O INTELECTO recebe a mensagem, junta a personalidade e o que lembra de você e monta o pedido ao modelo. É pequeno de propósito, para você entender e mudar.",
@@ -226,7 +229,8 @@
           "titulo": "E4 · Teste de memória",
           "min": "2 dias",
           "texto": "Dia 1: conte três fatos seus. Dia 2, numa conversa nova: pergunte sobre eles.",
-          "pronto": "ele lembra sem você repetir."
+          "pronto": "ele lembra sem você repetir.",
+          "dias": 2
         },
         {
           "id": "e5",
@@ -240,7 +244,8 @@
           "titulo": "E6 · Uma rotina de verdade",
           "min": "20 min",
           "texto": "Transforme uma das tarefas do E1 em pedido fixo e use por uma semana.",
-          "pronto": "você usou 5 dias seguidos e anotou o que melhorar."
+          "pronto": "você usou 5 dias seguidos e anotou o que melhorar.",
+          "dias": 5
         }
       ],
       "fonte": "Exercícios completos: <a href=\"https://github.com/inematds/jornada-agentes/blob/main/exercicios/02-jarvis.md\" target=\"_blank\" rel=\"noopener\">jornada-agentes/exercicios/02-jarvis.md</a>. O desafio extra (a lista de tarefas para mandar e ir dormir) é a entrada do degrau 3."
@@ -266,7 +271,8 @@
           ],
           "certa": 1,
           "explica": "O desenho vem antes: com nome, jeito, o que fazer e o que nunca fazer escritos, você responde à configuração guiada sem improvisar e tem como avaliar se o assistente está certo.",
-          "cert": true
+          "cert": true,
+          "ref": "passos"
         },
         {
           "p": "O assistente não lembrou o que você contou ontem. Qual o primeiro passo?",
@@ -277,7 +283,8 @@
             "Repetir os fatos todo dia."
           ],
           "certa": 2,
-          "explica": "O exercício E4 diz exatamente isso: se não lembrar, veja no curso do INTELECTO como a memória é guardada e ajuste."
+          "explica": "O exercício E4 diz exatamente isso: se não lembrar, veja no curso do INTELECTO como a memória é guardada e ajuste.",
+          "ref": "passos"
         },
         {
           "p": "Quando faz sentido um modelo local (Ollama)?",
@@ -288,7 +295,8 @@
             "Só para rotinas de madrugada."
           ],
           "certa": 1,
-          "explica": "A escolha é medida: mesma pergunta nos dois, tabela com tempo, qualidade e custo, e decisão com os seus números."
+          "explica": "A escolha é medida: mesma pergunta nos dois, tabela com tempo, qualidade e custo, e decisão com os seus números.",
+          "ref": "codigo"
         }
       ]
     },

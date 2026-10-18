@@ -136,7 +136,7 @@
     "proxima_pergunta": "Próxima pergunta",
     "quiz_ver": "Ver resultado",
     "quiz_fim": "Teste concluído",
-    "quiz_total": "Você acertou {a} de {n}. Acertando todas, a aula é marcada como concluída. Pode refazer quantas vezes quiser recarregando a página.",
+    "quiz_total": "Você acertou {a} de {n}. Acertando todas, a aula é marcada como concluída.",
     "aparencia": "Aparência",
     "tamanho_texto": "Tamanho do texto",
     "tema": "Tema",
@@ -145,7 +145,21 @@
     "role_dica": "Role a página: cada etapa abaixo acende a sua parte do diagrama.",
     "pre_requisito": "requer",
     "ver_aula": "Ver a aula",
-    "mapa_dica": "Clique num exercício para ver o que fazer e o \"pronto quando\"."
+    "mapa_dica": "Clique num exercício para ver o que fazer e o \"pronto quando\".",
+    "etapas": "Etapas",
+    "exercicios": "exercícios",
+    "rever": "Rever:",
+    "revisar_erradas": "Revisar as erradas",
+    "refazer": "Refazer o teste",
+    "h_semana": "h por semana",
+    "data_inicio": "Data de início",
+    "ritmo": "Tempo disponível",
+    "gerar_plano": "Gerar meu plano",
+    "baixar_md": "Baixar plano.md",
+    "baixar_ics": "Baixar para o calendário (.ics)",
+    "ind_estudo": "Estudo (aulas)",
+    "ind_pratica": "Prática declarada",
+    "ind_nota": "Prática = exercícios que você marcou como feitos. A comprovação vem na prova da certificação."
   },
   "icone": "camadas"
 }
